@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:background="@drawable/white_gray"
+                android:minHeight="100dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+    <ImageView
+            android:id="@+id/prayer_image"
+            android:layout_margin="16dp"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:src="@drawable/test" />
+    <TextView
+            android:id="@+id/prayer_title"
+            android:layout_toRightOf="@id/prayer_image"
+            android:layout_alignTop="@id/prayer_image"
+            android:layout_alignBottom="@id/prayer_image"
+            android:paddingRight="16dp"
+            android:gravity="center"
+            android:text="Posted by ..."
+            android:textSize="20dp"
+            style="@style/text" />
+    <View   android:id="@+id/prayer_first_line"
+            android:layout_below="@id/prayer_image"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray" />
+    <TextView
+            android:id="@+id/prayer_text"
+            android:layout_below="@id/prayer_first_line"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:text="content"
+            android:textSize="20dp"
+            style="@style/text" />
+    <View   android:id="@+id/prayer_second_line"
+            android:layout_below="@id/prayer_text"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray" />
+    <View   android:id="@+id/prayer_footer_bg"
+            android:layout_below="@+id/prayer_footer"
+            android:layout_alignTop="@+id/prayer_footer"
+            android:layout_alignBottom="@id/prayer_footer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange" />
+    <TextView
+            android:id="@+id/prayer_btn_pray"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/prayer_second_line"
+            android:padding="8dp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="content"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/gray" />
+    <TextView
+            android:id="@+id/prayer_footer"
+            android:layout_below="@id/prayer_second_line"
+            android:layout_toLeftOf="@id/prayer_btn_pray"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:text="content"
+            android:textSize="20dp"
+            style="@style/text" />
+    <View   android:id="@+id/prayer_third_line"
+            android:layout_below="@id/prayer_footer"
+            android:layout_width="fill_parent"
+            android:layout_height="5dp"
+            android:background="@color/gray" />
+</RelativeLayout>

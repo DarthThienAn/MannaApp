@@ -30,8 +30,8 @@ public class AuthActivity extends Activity {
             setContentView(R.layout.activity_auth);
 
             nameEntry = (EditText) findViewById(R.id.auth_name_entry);
-            yearEntry = (EditText) findViewById(R.id.auth_name_entry);
-            emailEntry = (EditText) findViewById(R.id.auth_name_entry);
+            yearEntry = (EditText) findViewById(R.id.auth_year_entry);
+            emailEntry = (EditText) findViewById(R.id.auth_email_entry);
             goButton = (Button) findViewById(R.id.auth_btn_go);
             anonButton = (Button) findViewById(R.id.auth_btn_anon);
 
