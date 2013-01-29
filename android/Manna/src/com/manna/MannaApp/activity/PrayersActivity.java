@@ -16,6 +16,7 @@ import com.manna.MannaApp.adapter.ListAdapter;
 import com.manna.MannaApp.asynctask.AsyncGet;
 import com.manna.MannaApp.list.ListItemType;
 import com.manna.MannaApp.list.PrayerItem;
+import com.manna.MannaApp.list.PrayerItem2;
 import com.manna.MannaApp.model.Prayer;
 import com.manna.MannaApp.providers.RestTemplateProvider;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -133,12 +134,14 @@ public class PrayersActivity extends Activity {
 //        }
 
         String[] authors = { "Mark my name is really long", "Daniel", "David", "Joel", "Sam"};
-        String[] content = { "hello world", "I wish I had a pony", "Pray for my life", "I wish my sermons would write themselves", "Green eggs and ham"};
+        String[] subject = { "Need prayer for thesis", "Tough times", "Finals", "Busy week", "Need a friend"};
+        String[] content = { "hello world", "Hey how you all doing my name is Daniel and I'm looking to fight some lions next week, so if you can pray for that, it'd be great thanks!", "Pray for my life", "I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.", "Green eggs and ham"};
         int[] times = { 1, 2, 3, 2, 1 };
+        int[] comments = { 0, 2, 4, 1, 3 };
 
         for (int i = 0; i < 5; i++) {
-            PrayerItem prayerItem = new PrayerItem();
-            Prayer prayer = new Prayer(authors[i], content[i], times[i]);
+            PrayerItem2 prayerItem = new PrayerItem2();
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i], comments[i]);
             prayerItem.setModel(prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);
@@ -191,7 +194,7 @@ public class PrayersActivity extends Activity {
             @Override
             public void onClick(View view) {
                 PrayerItem prayerItem = new PrayerItem();
-                Prayer prayer = new Prayer("Myself", edit.getText().toString(), 0);
+                Prayer prayer = new Prayer("Myself", "MY SUBJECT", edit.getText().toString(), 0, 1);
                 prayerItem.setModel(prayer);
                 prayers.add(prayer);
                 adapter.add(prayerItem);

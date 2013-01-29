@@ -40,7 +40,7 @@ public class PrayerViewActivity extends Activity {
         Random random = new Random();
         for (int i = 0; i < 10; i++) {
             String content = "" + random.nextInt(100);
-            prayers.add(new Prayer("misc", content, i));
+            prayers.add(new Prayer("misc", "subject", content, i, i + 1));
         }
     }
 
