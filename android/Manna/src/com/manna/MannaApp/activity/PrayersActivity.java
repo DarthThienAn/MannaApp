@@ -3,7 +3,11 @@ package com.manna.MannaApp.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.manna.MannaApp.R;
@@ -11,7 +15,21 @@ import com.manna.MannaApp.adapter.ListAdapter;
 import com.manna.MannaApp.list.ListItemType;
 import com.manna.MannaApp.list.PrayerItem;
 import com.manna.MannaApp.model.Prayer;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.MappingJsonFactory;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.PropertyNamingStrategy;
+import org.springframework.http.HttpInputMessage;
+import org.springframework.http.HttpOutputMessage;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +55,7 @@ public class PrayersActivity extends Activity {
         listview.setOnItemClickListener(onItemClickListener);
 
         drawPrayers();
-
+/*
         Button addButton = (Button) findViewById(R.id.prayers_add);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +88,30 @@ public class PrayersActivity extends Activity {
                 dialog.show();
             }
         });
+*/
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_prayers, menu);
+
+        menu.findItem(R.id.menu_post).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Dialog dialog = createDialog("Post a prayer", "Some text", "Enter your prayer here...", "Post", "Cancel");
+                dialog.show();
+                return true;
+            }
+        });
+        menu.findItem(R.id.menu_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                populate();
+                return true;
+            }
+        });
+        return true;
     }
 
     private void drawPrayers() {
@@ -162,5 +203,46 @@ public class PrayersActivity extends Activity {
 
         dialog.setCancelable(true);
         return dialog;
+    }
+
+    private void populate() {
+//        objectMapper.configure(DeserializationConfig.Feature.READ_ENUMS_USING_TO_STRING, true);
+//        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+//        // should fail during development
+//        objectMapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+//        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+//        for (HttpMessageConverter<?> messageConverter : messageConverters) {
+//            if (messageConverter instanceof MappingJacksonHttpMessageConverter) {
+//                ((MappingJacksonHttpMessageConverter) messageConverter).setObjectMapper(objectMapper);
+//            }
+//        }
+
+
+        AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                RestTemplate restTemplate = new RestTemplate();
+                ObjectMapper objectMapper = new ObjectMapper();
+                MappingJacksonHttpMessageConverter jsonConverter = new MappingJacksonHttpMessageConverter();
+                jsonConverter.setObjectMapper(objectMapper);
+//                restTemplate.getMessageConverters().add(jsonConverter);
+                restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+
+
+//                String object = restTemplate.getForObject("http://api.sonar.me/users/self?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);
+                String object = restTemplate.getForObject("http://api.sonar.me/v1/users/505622cde4b04828a245d6a5/statuses?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);
+                Log.d("PPFM", object);
+                return object;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                Log.d("PPFM", s);
+            }
+        };
+
+        task.execute(null);
     }
 }

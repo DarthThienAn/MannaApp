@@ -7,4 +7,5 @@
     <color name="dark_gray">#999999</color>
     <color name="highlighted_text_holo_dark">#6633b5e5</color>
     <color name="highlighted_text_holo_light">#6633b5e5</color>
+    <color name="background">#ccffff</color>
 </resources>

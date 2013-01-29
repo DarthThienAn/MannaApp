@@ -24,6 +24,13 @@ public class HomeActivity extends Activity {
         meetupButton = (Button) findViewById(R.id.home_btn_meetup);
         settingsButton = (Button) findViewById(R.id.home_btn_settings);
 
+        announcementsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), AuthActivity.class));
+            }
+        });
+
         prayersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
