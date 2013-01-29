@@ -10,11 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.manna.MannaApp.GlobalConstants;
 import com.manna.MannaApp.R;
 import com.manna.MannaApp.adapter.ListAdapter;
+import com.manna.MannaApp.asynctask.AsyncGet;
 import com.manna.MannaApp.list.ListItemType;
 import com.manna.MannaApp.list.PrayerItem;
 import com.manna.MannaApp.model.Prayer;
+import com.manna.MannaApp.providers.RestTemplateProvider;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.MappingJsonFactory;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -99,8 +102,9 @@ public class PrayersActivity extends Activity {
         menu.findItem(R.id.menu_post).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                Dialog dialog = createDialog("Post a prayer", "Some text", "Enter your prayer here...", "Post", "Cancel");
-                dialog.show();
+//                Dialog dialog = createDialog("Post a prayer", "Some text", "Enter your prayer here...", "Post", "Cancel");
+//                dialog.show();
+                startActivity(new Intent(getApplicationContext(), PostActivity.class));
                 return true;
             }
         });
@@ -206,43 +210,9 @@ public class PrayersActivity extends Activity {
     }
 
     private void populate() {
-//        objectMapper.configure(DeserializationConfig.Feature.READ_ENUMS_USING_TO_STRING, true);
-//        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
-//        // should fail during development
-//        objectMapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
-
-//        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
-//        for (HttpMessageConverter<?> messageConverter : messageConverters) {
-//            if (messageConverter instanceof MappingJacksonHttpMessageConverter) {
-//                ((MappingJacksonHttpMessageConverter) messageConverter).setObjectMapper(objectMapper);
-//            }
-//        }
-
-
-        AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... voids) {
-                RestTemplate restTemplate = new RestTemplate();
-                ObjectMapper objectMapper = new ObjectMapper();
-                MappingJacksonHttpMessageConverter jsonConverter = new MappingJacksonHttpMessageConverter();
-                jsonConverter.setObjectMapper(objectMapper);
-//                restTemplate.getMessageConverters().add(jsonConverter);
-                restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-
-
-//                String object = restTemplate.getForObject("http://api.sonar.me/users/self?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);
-                String object = restTemplate.getForObject("http://api.sonar.me/v1/users/505622cde4b04828a245d6a5/statuses?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);
-                Log.d("PPFM", object);
-                return object;
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                Log.d("PPFM", s);
-            }
-        };
-
-        task.execute(null);
+        AsyncGet<String> task = new AsyncGet<String>("http://api.sonar.me/v1/users/505622cde4b04828a245d6a5/statuses?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);
+//        String object = restTemplate.getForObject("http://api.sonar.me/users/self?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);
+//        String object = restTemplate.getForObject("http://api.sonar.me/v1/users/505622cde4b04828a245d6a5/statuses?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);
+        task.execute();
     }
 }
