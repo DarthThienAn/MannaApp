@@ -5,15 +5,9 @@ import android.view.View;
 
 public abstract class ListItem<T> {
 
-    protected Context context;
     protected T model;
 
-    public ListItem(Context context) {
-        this.context = context;
-    }
-
-    public ListItem(Context context, T model) {
-        this.context = context;
+    public ListItem(T model) {
         this.model = model;
     }
 

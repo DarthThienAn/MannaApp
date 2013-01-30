@@ -143,7 +143,7 @@ public class PrayersActivity extends Activity {
 
         for (int i = 0; i < 5; i++) {
             Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i], times[i] + 5, replies[i]);
-            PrayerItem prayerItem = new PrayerItem(PrayersActivity.this, prayer);
+            PrayerItem prayerItem = new PrayerItem(prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);
         }
@@ -174,8 +174,18 @@ public class PrayersActivity extends Activity {
                 //            intent.putExtra("prayers", );
                 startActivity(intent);
             }
-            else if (adapter.getItem(i).getType() == ListItemType.PRAYER) {
-                Intent intent = new Intent(getApplicationContext(), PrayerViewActivity.class);
+            else if (adapter.getItem(i).getType() == ListItemType.PRAYER2) {
+                Intent intent = new Intent(getApplicationContext(), PrayerRepliesActivity.class);
+                intent.putExtra("pos", i);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("prayers", (ArrayList<Prayer>) prayers);
+                intent.putExtra("prayers", bundle);
+                //            Parcelable[] data = new Parcelable[1];
+                //            intent.putExtra("prayers", );
+                startActivity(intent);
+            }
+            else if (adapter.getItem(i).getType() == ListItemType.PRAYER3) {
+                Intent intent = new Intent(getApplicationContext(), PrayerRepliesActivity.class);
                 intent.putExtra("pos", i);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("prayers", (ArrayList<Prayer>) prayers);
@@ -207,7 +217,7 @@ public class PrayersActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Prayer prayer = new Prayer("Myself", "MY SUBJECT", edit.getText().toString(), 0, 1, 1);
-                PrayerItem prayerItem = new PrayerItem(PrayersActivity.this, prayer);
+                PrayerItem prayerItem = new PrayerItem(prayer);
                 prayers.add(prayer);
                 adapter.add(prayerItem);
                 dialog.dismiss();

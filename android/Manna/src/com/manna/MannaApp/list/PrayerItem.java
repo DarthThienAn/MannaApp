@@ -7,12 +7,9 @@ import com.manna.MannaApp.R;
 import com.manna.MannaApp.model.Prayer;
 
 public class PrayerItem extends ListItem<Prayer> {
-    public PrayerItem(Context context) {
-        super(context);
-    }
 
-    public PrayerItem(Context context, Prayer model) {
-        super(context, model);
+    public PrayerItem(Prayer model) {
+        super(model);
     }
 
     @Override

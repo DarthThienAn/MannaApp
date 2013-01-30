@@ -34,9 +34,9 @@ public class ListAdapter extends ArrayAdapter<ListItem>  {
         if (view == null) {
             view = context.getLayoutInflater().inflate(item.getResourceId(), parent, false);
         }
-        else
-            GlobalConstants.log("ListAdapter", "convertview used");
-        GlobalConstants.log("ListAdapter", item.getType().ordinal());
+//        else
+//            GlobalConstants.log("ListAdapter", "convertview used");
+//        GlobalConstants.log("ListAdapter", item.getType().ordinal());
 
         item.populate(view);
         return view;

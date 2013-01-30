@@ -9,12 +9,11 @@ import com.manna.MannaApp.activity.RepliesActivity;
 import com.manna.MannaApp.model.Prayer;
 
 public class PrayerItem3 extends ListItem<Prayer> {
-    public PrayerItem3(Context context) {
-        super(context);
-    }
+    private Context context;
 
     public PrayerItem3(Context context, Prayer model) {
-        super(context, model);
+        super(model);
+        this.context = context;
     }
 
     @Override

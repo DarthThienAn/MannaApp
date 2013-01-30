@@ -33,7 +33,7 @@ public class PrayerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = layoutInflater.inflate(R.layout.item_prayerview, container, false);
+        View view = layoutInflater.inflate(R.layout.item_prayerview_old, container, false);
         TextView title = (TextView) view.findViewById(R.id.prayer_title);
         TextView text = (TextView) view.findViewById(R.id.prayer_text);
         title.setText(String.format("Posted by %s", prayers.get(position).getAuthor()));

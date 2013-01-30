@@ -6,12 +6,9 @@ import android.widget.TextView;
 import com.manna.MannaApp.R;
 
 public class PrayerFooterItem extends ListItem<Integer> {
-    public PrayerFooterItem(Context context) {
-        super(context);
-    }
 
-    public PrayerFooterItem(Context context, Integer model) {
-        super(context, model);
+    public PrayerFooterItem(Integer model) {
+        super(model);
     }
 
     @Override

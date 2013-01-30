@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.manna.MannaApp.GlobalConstants;
 import com.manna.MannaApp.R;
 import com.manna.MannaApp.adapter.ListAdapter;
-import com.manna.MannaApp.list.RepliesItem;
+import com.manna.MannaApp.list.ReplyItem;
 import com.manna.MannaApp.list.PrayerItem3;
 import com.manna.MannaApp.model.Reply;
 import com.manna.MannaApp.model.Prayer;
@@ -34,9 +34,8 @@ public class RepliesActivity extends Activity {
         replies = new ArrayList<Reply>();
         listview.setAdapter(adapter);
 
-        PrayerItem3 prayerItem = new PrayerItem3(RepliesActivity.this);
         Prayer prayer = new Prayer("Mark", "Thesis killing me", "Hey guys my thesis is due next week and I haven't started. please pray for me.", 2, 10, 10);
-        prayerItem.setModel(prayer);
+        PrayerItem3 prayerItem = new PrayerItem3(RepliesActivity.this, prayer);
         adapter.add(prayerItem);
 
 
@@ -67,7 +66,6 @@ public class RepliesActivity extends Activity {
     }
 
     private void createDummyReplies() {
-
         String[] authors = { "Mark my name is really long", "Daniel", "David", "Joel", "Sam"};
         String[] subjects = { "You can do it", "We're here for you", "IMO", "that sucks", "prayin4u"};
         String[] content = { "I believe in u bro", "Hey how you all doing my name is Daniel and I'm looking to fight some lions next week, so if you can pray for that, it'd be great thanks!", "Pray for my life", "I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.", "Green eggs and ham"};
@@ -76,8 +74,8 @@ public class RepliesActivity extends Activity {
         for (int i = 0; i < 5; i++) {
             Reply reply = new Reply(authors[i], subjects[i], content[i], timestamp[i]);
             replies.add(reply);
-            RepliesItem repliesItem = new RepliesItem(RepliesActivity.this, reply);
-            adapter.add(repliesItem);
+            ReplyItem replyItem = new ReplyItem(reply);
+            adapter.add(replyItem);
         }
     }
 }

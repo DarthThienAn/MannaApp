@@ -6,13 +6,9 @@ import android.widget.TextView;
 import com.manna.MannaApp.R;
 import com.manna.MannaApp.model.Reply;
 
-public class RepliesItem extends ListItem<Reply> {
-    public RepliesItem(Context context) {
-        super(context);
-    }
-
-    public RepliesItem(Context context, Reply model) {
-        super(context, model);
+public class ReplyItem extends ListItem<Reply> {
+    public ReplyItem(Reply model) {
+        super(model);
     }
 
     @Override
@@ -29,6 +25,7 @@ public class RepliesItem extends ListItem<Reply> {
     public void populate(View view) {
         TextView title = (TextView) view.findViewById(R.id.reply_title);
         title.setText(model.getSubject());
+//        title.setVisibility(View.GONE);
         TextView text = (TextView) view.findViewById(R.id.reply_text);
         text.setText(model.getContent());
         TextView timestamp = (TextView) view.findViewById(R.id.reply_timestamp);
