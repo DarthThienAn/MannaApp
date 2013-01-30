@@ -8,7 +8,7 @@ import com.manna.MannaApp.model.Prayer;
 public class PrayerItem2 extends ListItem<Prayer> {
     @Override
     public ListItemType getType() {
-        return ListItemType.PRAYER;
+        return ListItemType.PRAYER2;
     }
 
     @Override
@@ -33,12 +33,14 @@ public class PrayerItem2 extends ListItem<Prayer> {
 
         TextView prayButton = (TextView) view.findViewById(R.id.prayer_btn_pray);
         prayButton.setText(String.format("Prays(%d)", model.getTimesPrayed()));
+        prayButton.setEnabled(!model.isPrayedFor());
         prayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 model.incTimesPrayed();
                 TextView prayButton = (TextView) view.findViewById(R.id.prayer_btn_pray);
                 prayButton.setEnabled(false);
+                model.setPrayedFor(true);
                 prayButton.setText(String.format("Prays(%d)", model.getTimesPrayed()));
             }
         });

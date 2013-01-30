@@ -9,6 +9,16 @@ public class Prayer implements Parcelable {
     private String content;
     private int timesPrayed;
     private long timestamp;
+    private boolean prayedFor;
+
+    public Prayer(String author, String subject, String content, int timesPrayed, long timestamp, boolean prayedFor) {
+        this.author = author;
+        this.subject = subject;
+        this.content = content;
+        this.timesPrayed = timesPrayed;
+        this.timestamp = timestamp;
+        this.prayedFor = prayedFor;
+    }
 
     public Prayer(String author, String subject, String content, int timesPrayed, long timestamp) {
         this.author = author;
@@ -16,6 +26,14 @@ public class Prayer implements Parcelable {
         this.content = content;
         this.timesPrayed = timesPrayed;
         this.timestamp = timestamp;
+    }
+
+    public boolean isPrayedFor() {
+        return prayedFor;
+    }
+
+    public void setPrayedFor(boolean prayedFor) {
+        this.prayedFor = prayedFor;
     }
 
     public String getSubject() {
@@ -74,6 +92,8 @@ public class Prayer implements Parcelable {
         parcel.writeString(content);
         parcel.writeInt(timesPrayed);
         parcel.writeLong(timestamp);
+        boolean[] booleans = { prayedFor };
+        parcel.writeBooleanArray(booleans);
     }
 
     public static final Parcelable.Creator<Prayer> CREATOR = new Creator<Prayer>() {
@@ -85,7 +105,9 @@ public class Prayer implements Parcelable {
             String content = parcel.readString();
             int timesPrayed = parcel.readInt();
             long timestamp = parcel.readLong();
-            return new Prayer(author, subject, content, timesPrayed, timestamp);
+            boolean[] booleans = new boolean[1];
+            parcel.readBooleanArray(booleans);
+            return new Prayer(author, subject, content, timesPrayed, timestamp, booleans[0]);
         }
 
         @Override
@@ -100,5 +122,8 @@ public class Prayer implements Parcelable {
         this.content = parcel.readString();
         this.timesPrayed = parcel.readInt();
         this.timestamp = parcel.readLong();
+        boolean[] booleans = new boolean[1];
+        parcel.readBooleanArray(booleans);
+        this.prayedFor = booleans[0];
     }
 }
