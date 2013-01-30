@@ -1,12 +1,12 @@
 package com.manna.MannaApp.model;
 
-public class Comment {
+public class Reply {
     private String author;
     private String subject;
     private String content;
     private long timestamp;
 
-    public Comment(String author, String subject, String content, long timestamp) {
+    public Reply(String author, String subject, String content, long timestamp) {
         this.author = author;
         this.subject = subject;
         this.content = content;

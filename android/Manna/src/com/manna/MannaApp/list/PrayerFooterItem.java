@@ -1,10 +1,19 @@
 package com.manna.MannaApp.list;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import com.manna.MannaApp.R;
 
 public class PrayerFooterItem extends ListItem<Integer> {
+    public PrayerFooterItem(Context context) {
+        super(context);
+    }
+
+    public PrayerFooterItem(Context context, Integer model) {
+        super(context, model);
+    }
+
     @Override
     public ListItemType getType() {
         return ListItemType.PRAYERFOOTER;

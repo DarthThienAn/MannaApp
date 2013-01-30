@@ -1,13 +1,20 @@
 package com.manna.MannaApp.list;
 
+import android.content.Context;
 import android.view.View;
 
 public abstract class ListItem<T> {
 
+    protected Context context;
     protected T model;
 
-    public ListItem() {
+    public ListItem(Context context) {
+        this.context = context;
+    }
 
+    public ListItem(Context context, T model) {
+        this.context = context;
+        this.model = model;
     }
 
     public void setModel(T model) {

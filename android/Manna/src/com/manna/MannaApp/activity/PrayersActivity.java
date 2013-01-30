@@ -113,8 +113,8 @@ public class PrayersActivity extends Activity {
         menu.findItem(R.id.menu_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-//                populate();
-                startActivity(new Intent(getApplicationContext(), CommentsActivity.class));
+                populate();
+//                startActivity(new Intent(getApplicationContext(), RepliesActivity.class));
                 return true;
             }
         });
@@ -139,26 +139,23 @@ public class PrayersActivity extends Activity {
         String[] subject = { "Need prayer for thesis", "Tough times", "Finals", "Busy week", "Need a friend"};
         String[] content = { "hello world", "Hey how you all doing my name is Daniel and I'm looking to fight some lions next week, so if you can pray for that, it'd be great thanks!", "Pray for my life", "I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.", "Green eggs and ham"};
         int[] times = { 1, 2, 3, 2, 1 };
-        int[] comments = { 0, 2, 4, 1, 3 };
+        int[] replies = { 0, 2, 4, 1, 3 };
 
         for (int i = 0; i < 5; i++) {
-            PrayerItem prayerItem = new PrayerItem();
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i], comments[i]);
-            prayerItem.setModel(prayer);
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i], times[i] + 5, replies[i]);
+            PrayerItem prayerItem = new PrayerItem(PrayersActivity.this, prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);
         }
         for (int i = 0; i < 5; i++) {
-            PrayerItem2 prayerItem = new PrayerItem2();
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i], comments[i]);
-            prayerItem.setModel(prayer);
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i],  times[i] + 5,replies[i]);
+            PrayerItem2 prayerItem = new PrayerItem2(PrayersActivity.this, prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);
         }
         for (int i = 0; i < 5; i++) {
-            PrayerItem3 prayerItem = new PrayerItem3();
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i], comments[i]);
-            prayerItem.setModel(prayer);
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i],  times[i] + 5,replies[i]);
+            PrayerItem3 prayerItem = new PrayerItem3(PrayersActivity.this, prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);
         }
@@ -209,9 +206,8 @@ public class PrayersActivity extends Activity {
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PrayerItem prayerItem = new PrayerItem();
-                Prayer prayer = new Prayer("Myself", "MY SUBJECT", edit.getText().toString(), 0, 1);
-                prayerItem.setModel(prayer);
+                Prayer prayer = new Prayer("Myself", "MY SUBJECT", edit.getText().toString(), 0, 1, 1);
+                PrayerItem prayerItem = new PrayerItem(PrayersActivity.this, prayer);
                 prayers.add(prayer);
                 adapter.add(prayerItem);
                 dialog.dismiss();

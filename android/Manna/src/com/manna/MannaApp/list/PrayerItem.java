@@ -1,11 +1,20 @@
 package com.manna.MannaApp.list;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import com.manna.MannaApp.R;
 import com.manna.MannaApp.model.Prayer;
 
 public class PrayerItem extends ListItem<Prayer> {
+    public PrayerItem(Context context) {
+        super(context);
+    }
+
+    public PrayerItem(Context context, Prayer model) {
+        super(context, model);
+    }
+
     @Override
     public ListItemType getType() {
         return ListItemType.PRAYER;

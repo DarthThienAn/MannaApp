@@ -60,7 +60,7 @@
                   android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
                   android:layout_toLeftOf="@id/send_divider"
-                  android:hint="Enter comment here"
+                  android:hint="Enter reply here"
                   android:padding="8dp"
                   android:textSize="14dp"
                   android:gravity="center_vertical"

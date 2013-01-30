@@ -8,24 +8,35 @@ public class Prayer implements Parcelable {
     private String subject;
     private String content;
     private int timesPrayed;
+    private int timesReplied;
     private long timestamp;
     private boolean prayedFor;
 
-    public Prayer(String author, String subject, String content, int timesPrayed, long timestamp, boolean prayedFor) {
+    public Prayer(String author, String subject, String content, int timesPrayed, int timesReplied, long timestamp) {
         this.author = author;
         this.subject = subject;
         this.content = content;
         this.timesPrayed = timesPrayed;
+        this.timesReplied = timesReplied;
+        this.timestamp = timestamp;
+    }
+
+    public Prayer(String author, String subject, String content, int timesPrayed, int timesReplied, long timestamp, boolean prayedFor) {
+        this.author = author;
+        this.subject = subject;
+        this.content = content;
+        this.timesPrayed = timesPrayed;
+        this.timesReplied = timesReplied;
         this.timestamp = timestamp;
         this.prayedFor = prayedFor;
     }
 
-    public Prayer(String author, String subject, String content, int timesPrayed, long timestamp) {
-        this.author = author;
-        this.subject = subject;
-        this.content = content;
-        this.timesPrayed = timesPrayed;
-        this.timestamp = timestamp;
+    public int getTimesReplied() {
+        return timesReplied;
+    }
+
+    public void setTimesReplied(int timesReplied) {
+        this.timesReplied = timesReplied;
     }
 
     public boolean isPrayedFor() {
@@ -91,6 +102,7 @@ public class Prayer implements Parcelable {
         parcel.writeString(subject);
         parcel.writeString(content);
         parcel.writeInt(timesPrayed);
+        parcel.writeInt(timesReplied);
         parcel.writeLong(timestamp);
         boolean[] booleans = { prayedFor };
         parcel.writeBooleanArray(booleans);
@@ -104,10 +116,11 @@ public class Prayer implements Parcelable {
             String subject = parcel.readString();
             String content = parcel.readString();
             int timesPrayed = parcel.readInt();
+            int timesReplied = parcel.readInt();
             long timestamp = parcel.readLong();
             boolean[] booleans = new boolean[1];
             parcel.readBooleanArray(booleans);
-            return new Prayer(author, subject, content, timesPrayed, timestamp, booleans[0]);
+            return new Prayer(author, subject, content, timesPrayed, timesReplied, timestamp, booleans[0]);
         }
 
         @Override
@@ -115,15 +128,4 @@ public class Prayer implements Parcelable {
             return new Prayer[i];
         }
     };
-
-    private Prayer(Parcel parcel) {
-        this.author = parcel.readString();
-        this.subject = parcel.readString();
-        this.content = parcel.readString();
-        this.timesPrayed = parcel.readInt();
-        this.timestamp = parcel.readLong();
-        boolean[] booleans = new boolean[1];
-        parcel.readBooleanArray(booleans);
-        this.prayedFor = booleans[0];
-    }
 }
