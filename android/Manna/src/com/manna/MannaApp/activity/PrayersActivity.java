@@ -17,6 +17,7 @@ import com.manna.MannaApp.asynctask.AsyncGet;
 import com.manna.MannaApp.list.ListItemType;
 import com.manna.MannaApp.list.PrayerItem;
 import com.manna.MannaApp.list.PrayerItem2;
+import com.manna.MannaApp.list.PrayerItem3;
 import com.manna.MannaApp.model.Prayer;
 import com.manna.MannaApp.providers.RestTemplateProvider;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -112,7 +113,8 @@ public class PrayersActivity extends Activity {
         menu.findItem(R.id.menu_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                populate();
+//                populate();
+                startActivity(new Intent(getApplicationContext(), CommentsActivity.class));
                 return true;
             }
         });
@@ -140,7 +142,21 @@ public class PrayersActivity extends Activity {
         int[] comments = { 0, 2, 4, 1, 3 };
 
         for (int i = 0; i < 5; i++) {
+            PrayerItem prayerItem = new PrayerItem();
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i], comments[i]);
+            prayerItem.setModel(prayer);
+            adapter.add(prayerItem);
+            prayers.add(prayer);
+        }
+        for (int i = 0; i < 5; i++) {
             PrayerItem2 prayerItem = new PrayerItem2();
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i], comments[i]);
+            prayerItem.setModel(prayer);
+            adapter.add(prayerItem);
+            prayers.add(prayer);
+        }
+        for (int i = 0; i < 5; i++) {
+            PrayerItem3 prayerItem = new PrayerItem3();
             Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i], comments[i]);
             prayerItem.setModel(prayer);
             adapter.add(prayerItem);

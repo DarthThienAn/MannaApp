@@ -5,7 +5,7 @@ import android.widget.TextView;
 import com.manna.MannaApp.R;
 import com.manna.MannaApp.model.Prayer;
 
-public class PrayerItem2 extends ListItem<Prayer> {
+public class PrayerItem3 extends ListItem<Prayer> {
     @Override
     public ListItemType getType() {
         return ListItemType.PRAYER;
@@ -13,11 +13,13 @@ public class PrayerItem2 extends ListItem<Prayer> {
 
     @Override
     public int getResourceId() {
-        return R.layout.item_prayer2;
+        return R.layout.item_prayer3;
     }
 
     @Override
     public void populate(View view) {
+        TextView title = (TextView) view.findViewById(R.id.prayer_title);
+        title.setText(model.getSubject());
         TextView text = (TextView) view.findViewById(R.id.prayer_text);
         text.setText(model.getContent());
 
@@ -28,6 +30,7 @@ public class PrayerItem2 extends ListItem<Prayer> {
             public void onClick(View view) {
                 TextView commentButton = (TextView) view.findViewById(R.id.prayer_btn_comment);
                 commentButton.setText("Comments(X)");
+
             }
         });
 

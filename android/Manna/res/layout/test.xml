@@ -10,17 +10,11 @@
     <TextView
             android:id="@+id/prayer_text"
             android:background="@color/white"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_marginTop="1dp"
-            android:padding="15dp"
             android:gravity="center_vertical"
             android:text="content"
             android:textSize="16sp"
             style="@style/text" />
     <View   android:layout_width="fill_parent"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
             android:layout_height="1dp"
             android:background="@color/gray" />
     <TextView
@@ -37,13 +31,13 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="33dp"
-            android:paddingTop="1dp"
+            android:paddingTop="2dp"
+            android:layout_height="34dp"
             android:background="@color/dark_gray">
         <TextView
                 android:id="@+id/prayer_btn_pray"
                 android:gravity="center"
-                android:layout_margin="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
@@ -53,7 +47,7 @@
         <TextView
                 android:id="@+id/prayer_btn_comment"
                 android:gravity="center"
-                android:layout_margin="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"

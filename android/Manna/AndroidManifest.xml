@@ -31,5 +31,8 @@
         <activity android:name=".activity.PostActivity"
                   android:configChanges="orientation|keyboardHidden">
         </activity>
+        <activity android:name=".activity.CommentsActivity"
+                  android:configChanges="orientation|keyboardHidden">
+        </activity>
     </application>
 </manifest>

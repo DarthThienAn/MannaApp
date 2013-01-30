@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="@color/white"
+              android:orientation="vertical"
+              android:layout_marginBottom="8dp"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content">
+    <TextView
+            android:id="@+id/comment_title"
+            android:layout_gravity="center"
+            android:text="Subject"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            style="@style/text" />
+    <View   android:layout_width="fill_parent"
+            android:visibility="gone"
+            android:layout_height="1dp"
+            android:background="@color/gray" />
+    <TextView
+            android:id="@+id/comment_text"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:gravity="center_vertical"
+            android:text="content"
+            android:textSize="16sp"
+            style="@style/text" />
+    <TextView
+            android:id="@+id/comment_timestamp"
+            android:padding="2dp"
+            android:layout_marginRight="8dp"
+            android:gravity="right"
+            android:text="Posted by Mark Ha 10 minutes ago"
+            android:textStyle="italic"
+            android:textSize="12sp"
+            style="@style/text" />
+</LinearLayout>

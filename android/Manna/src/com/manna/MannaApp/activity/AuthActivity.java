@@ -31,6 +31,7 @@ public class AuthActivity extends Activity {
 //            startHomeActivity();
 //        else {
             setContentView(R.layout.activity_auth);
+        startActivity(new Intent(getApplicationContext(), PrayersActivity.class));
 
             nameEntry = (EditText) findViewById(R.id.auth_name_entry);
             yearEntry = (EditText) findViewById(R.id.auth_year_entry);
