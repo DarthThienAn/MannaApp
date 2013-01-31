@@ -10,9 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.manna.MannaApp.GlobalConstants;
 import com.manna.MannaApp.R;
-import com.manna.MannaApp.list.ListItem;
 import com.manna.MannaApp.list.PrayerItem;
-import com.manna.MannaApp.list.PrayerItem3;
+import com.manna.MannaApp.list.PrayerReplyMainItem;
 import com.manna.MannaApp.list.ReplyItem;
 import com.manna.MannaApp.model.PrayerReply;
 import com.manna.MannaApp.model.Reply;
@@ -48,7 +47,7 @@ public class PrayerReplyAdapter extends PagerAdapter {
         listView.setAdapter(listAdapter);
 
 
-        PrayerItem prayerItem = new PrayerItem(prayerReplies.get(position).getPrayer());
+        PrayerReplyMainItem prayerItem = new PrayerReplyMainItem(prayerReplies.get(position).getPrayer());
         listAdapter.add(prayerItem);
 //        ViewGroup prayerView = (ViewGroup) layoutInflater.inflate(prayerItem.getResourceId(), view, false);
 //        prayerItem.populate(prayerView);

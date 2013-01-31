@@ -26,7 +26,7 @@ public class PrayerRepliesActivity extends Activity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        GlobalConstants.log("PrayerReplies", "create");
+        GlobalConstants.log(getLocalClassName(), "create");
         setContentView(R.layout.activity_prayerview);
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("prayers");

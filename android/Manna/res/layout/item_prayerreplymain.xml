@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="@color/dark_gray"
+              android:orientation="vertical"
+              android:padding="2dp"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content">
+    <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_width="fill_parent"
+            android:background="@color/gray"
+            android:minHeight="48dp">
+        <ImageView
+                android:id="@+id/prayer_image"
+                android:layout_gravity="center"
+                android:layout_height="52dp"
+                android:layout_width="52dp"
+                android:padding="4dp"
+                android:background="@color/white"
+                android:layout_marginRight="1dp"
+                android:src="@drawable/test" />
+        <TextView android:id="@+id/prayer_btn_pray"
+                  android:text="Prays"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
+                  android:layout_alignBottom="@+id/prayer_timestamp"
+                  android:layout_alignTop="@+id/prayer_title"
+                  android:gravity="center"
+                  android:padding="8dp"
+                  android:layout_centerVertical="true"
+                  android:textStyle="bold"
+                  android:background="@drawable/white_holoblue"
+                  android:layout_alignParentRight="true"
+                />
+
+        <View android:id="@+id/prayer_divider"
+              android:layout_toLeftOf="@id/prayer_btn_pray"
+              android:layout_alignBottom="@+id/prayer_title"
+              android:layout_alignTop="@+id/prayer_title"
+              android:layout_height="wrap_content"
+              android:layout_width="1dp"
+              android:background="@color/gray" />
+        <TextView android:id="@+id/prayer_timestamp"
+                  android:layout_height="wrap_content"
+                  android:layout_width="fill_parent"
+                  android:layout_below="@+id/prayer_author"
+                  android:layout_toRightOf="@id/prayer_image"
+                  android:layout_toLeftOf="@id/prayer_divider"
+                  android:text="timestamp"
+                  android:layout_marginTop="-2dp"
+                  android:paddingLeft="14dp"
+                  android:paddingRight="8dp"
+                  android:textStyle="italic"
+                  android:textSize="9sp"
+                  android:background="@color/white"
+                />
+        <TextView android:id="@+id/prayer_author"
+                  android:layout_height="wrap_content"
+                  android:layout_width="fill_parent"
+                  android:layout_below="@+id/prayer_title"
+                  android:layout_toRightOf="@id/prayer_image"
+                  android:layout_toLeftOf="@id/prayer_divider"
+                  android:text="Author"
+                  android:layout_marginTop="-4dp"
+                  android:paddingLeft="14dp"
+                  android:paddingRight="8dp"
+                  android:textSize="16sp"
+                  android:background="@color/white"
+                />
+        <TextView android:id="@+id/prayer_title"
+                  android:layout_height="wrap_content"
+                  android:layout_width="fill_parent"
+                  android:layout_toRightOf="@id/prayer_image"
+                  android:layout_toLeftOf="@id/prayer_divider"
+                  android:text="Subject"
+                  android:paddingTop="4dp"
+                  android:paddingLeft="8dp"
+                  android:paddingRight="8dp"
+                  android:textStyle="bold"
+                  android:textSize="20sp"
+                  android:background="@color/white"
+                />
+    </RelativeLayout>
+    <View   android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/dark_gray" />
+    <TextView
+            android:id="@+id/prayer_text"
+            android:padding="16dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="content"
+            android:textSize="16sp"
+            style="@style/text" />
+</LinearLayout>

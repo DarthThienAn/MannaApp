@@ -5,6 +5,7 @@ public enum ListItemType {
     PRAYER,
     PRAYER2,
     PRAYER3,
+    PRAYERREPLYMAIN,
     PRAYERFOOTER,
     REPLY
 }

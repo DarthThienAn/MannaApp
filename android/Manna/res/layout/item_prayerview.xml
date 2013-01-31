@@ -65,7 +65,6 @@
                   android:hint="Enter reply here"
                   android:padding="8dp"
                   android:textSize="14dp"
-                  android:gravity="center_vertical"
                   android:minHeight="48dp"
                   android:background="@color/white"
                 />
