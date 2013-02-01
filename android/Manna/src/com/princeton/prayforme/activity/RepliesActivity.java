@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.R;
+import com.princeton.prayforme.Security;
 import com.princeton.prayforme.adapter.ListAdapter;
 import com.princeton.prayforme.list.ReplyItem;
 import com.princeton.prayforme.list.PrayerItem3;
@@ -34,9 +35,9 @@ public class RepliesActivity extends Activity {
         replies = new ArrayList<Reply>();
         listview.setAdapter(adapter);
 
-        Prayer prayer = new Prayer("Mark", "Thesis killing me", "Hey guys my thesis is due next week and I haven't started. please pray for me.", 2, 10, 10);
-        PrayerItem3 prayerItem = new PrayerItem3(RepliesActivity.this, prayer);
-        adapter.add(prayerItem);
+//        Prayer prayer = new Prayer("Mark", "Thesis killing me", "Hey guys my thesis is due next week and I haven't started. please pray for me.", Security.getMD5("mynameismark"), 2, 10, 10);
+//        PrayerItem3 prayerItem = new PrayerItem3(RepliesActivity.this, prayer);
+//        adapter.add(prayerItem);
 
 
         createDummyReplies();

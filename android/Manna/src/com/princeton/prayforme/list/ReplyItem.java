@@ -28,6 +28,6 @@ public class ReplyItem extends ListItem<Reply> {
         TextView text = (TextView) view.findViewById(R.id.reply_text);
         text.setText(model.getContent());
         TextView timestamp = (TextView) view.findViewById(R.id.reply_timestamp);
-        timestamp.setText(String.format("Posted by %s %d minutes ago", model.getAuthor(), model.getTimestamp()));
+        timestamp.setText(String.format("Posted by %s %d minutes ago", model.getAuthor() == null ? "Anonymous" : model.getAuthor(), model.getTimestamp()));
     }
 }

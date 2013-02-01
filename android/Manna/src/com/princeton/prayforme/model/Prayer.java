@@ -6,37 +6,42 @@ import android.os.Parcelable;
 public class Prayer implements Parcelable {
     private String author;
     private String subject;
-    private String content;
-    private int timesPrayed;
-    private int timesReplied;
+    private String message;
+    private String signature;
+    private int timesPrayedFor;
+    private int[] replies;
     private long timestamp;
     private boolean prayedFor;
 
-    public Prayer(String author, String subject, String content, int timesPrayed, int timesReplied, long timestamp) {
+    public Prayer(String author, String subject, String message, String signature, int timesPrayedFor, int[] replies, long timestamp, boolean prayedFor) {
         this.author = author;
         this.subject = subject;
-        this.content = content;
-        this.timesPrayed = timesPrayed;
-        this.timesReplied = timesReplied;
-        this.timestamp = timestamp;
-    }
-
-    public Prayer(String author, String subject, String content, int timesPrayed, int timesReplied, long timestamp, boolean prayedFor) {
-        this.author = author;
-        this.subject = subject;
-        this.content = content;
-        this.timesPrayed = timesPrayed;
-        this.timesReplied = timesReplied;
+        this.message = message;
+        this.signature = signature;
+        this.timesPrayedFor = timesPrayedFor;
+        this.replies = replies;
         this.timestamp = timestamp;
         this.prayedFor = prayedFor;
     }
 
-    public int getTimesReplied() {
-        return timesReplied;
+    public Prayer(String author, String subject, String message, String signature, int timesPrayedFor, int[] replies, long timestamp) {
+        this.author = author;
+        this.subject = subject;
+        this.message = message;
+        this.signature = signature;
+        this.timesPrayedFor = timesPrayedFor;
+        this.replies = replies;
+        this.timestamp = timestamp;
     }
 
-    public void setTimesReplied(int timesReplied) {
-        this.timesReplied = timesReplied;
+    public Prayer(String subject, String message, String signature, int timesPrayedFor, int[] replies, long timestamp) {
+        this.subject = subject;
+        this.message = message;
+        this.signature = signature;
+        this.timesPrayedFor = timesPrayedFor;
+        this.replies = replies;
+        this.timestamp = timestamp;
+        author = "Author";
     }
 
     public boolean isPrayedFor() {
@@ -55,12 +60,12 @@ public class Prayer implements Parcelable {
         this.subject = subject;
     }
 
-    public String getContent() {
-        return content;
+    public String getMessage() {
+        return message;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getAuthor() {
@@ -71,16 +76,16 @@ public class Prayer implements Parcelable {
         this.author = author;
     }
 
-    public int getTimesPrayed() {
-        return timesPrayed;
+    public int getTimesPrayedFor() {
+        return timesPrayedFor;
     }
 
-    public void setTimesPrayed(int timesPrayed) {
-        this.timesPrayed = timesPrayed;
+    public void setTimesPrayedFor(int timesPrayedFor) {
+        this.timesPrayedFor = timesPrayedFor;
     }
 
     public void incTimesPrayed() {
-        timesPrayed++;
+        timesPrayedFor++;
     }
 
     public long getTimestamp() {
@@ -89,6 +94,26 @@ public class Prayer implements Parcelable {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public int[] getReplies() {
+        return replies;
+    }
+
+    public void setReplies(int[] replies) {
+        this.replies = replies;
+    }
+
+    public int getTimesReplied() {
+        return replies.length;
     }
 
     @Override
@@ -100,9 +125,11 @@ public class Prayer implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(author);
         parcel.writeString(subject);
-        parcel.writeString(content);
-        parcel.writeInt(timesPrayed);
-        parcel.writeInt(timesReplied);
+        parcel.writeString(message);
+        parcel.writeString(signature);
+        parcel.writeInt(timesPrayedFor);
+        parcel.writeInt(replies.length);
+        parcel.writeIntArray(replies);
         parcel.writeLong(timestamp);
         boolean[] booleans = { prayedFor };
         parcel.writeBooleanArray(booleans);
@@ -115,12 +142,14 @@ public class Prayer implements Parcelable {
             String author = parcel.readString();
             String subject = parcel.readString();
             String content = parcel.readString();
+            String signature = parcel.readString();
             int timesPrayed = parcel.readInt();
-            int timesReplied = parcel.readInt();
+            int[] replies = new int[parcel.readInt()];
+            parcel.readIntArray(replies);
             long timestamp = parcel.readLong();
             boolean[] booleans = new boolean[1];
             parcel.readBooleanArray(booleans);
-            return new Prayer(author, subject, content, timesPrayed, timesReplied, timestamp, booleans[0]);
+            return new Prayer(author, subject, content, signature, timesPrayed, replies, timestamp, booleans[0]);
         }
 
         @Override
@@ -128,4 +157,22 @@ public class Prayer implements Parcelable {
             return new Prayer[i];
         }
     };
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Prayer");
+        sb.append("{author='").append(author).append('\'');
+        sb.append(", subject='").append(subject).append('\'');
+        sb.append(", message='").append(message).append('\'');
+        sb.append(", signature='").append(signature).append('\'');
+        sb.append(", timesPrayedFor=").append(timesPrayedFor);
+        sb.append(", replies=").append(replies == null ? "null" : "{");
+        for (int i : replies)
+            sb.append(replies[i]).append(", ");
+        sb.append("}, timestamp=").append(timestamp);
+        sb.append(", prayedFor=").append(prayedFor);
+        sb.append('}');
+        return sb.toString();
+    }
 }

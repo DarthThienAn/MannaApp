@@ -21,10 +21,12 @@ import java.util.List;
 public class PrayerReplyAdapter extends PagerAdapter {
 
     private List<PrayerReply> prayerReplies;
+    Activity context;
     LayoutInflater layoutInflater;
 
-    public PrayerReplyAdapter(LayoutInflater layoutInflater) {
-        this.layoutInflater = layoutInflater;
+    public PrayerReplyAdapter(Activity context) {
+        this.context = context;
+        layoutInflater = context.getLayoutInflater();
         prayerReplies = new ArrayList<PrayerReply>();
     }
 
@@ -46,7 +48,7 @@ public class PrayerReplyAdapter extends PagerAdapter {
         listView.setAdapter(listAdapter);
 
 
-        PrayerReplyMainItem prayerItem = new PrayerReplyMainItem(prayerReplies.get(position).getPrayer());
+        PrayerReplyMainItem prayerItem = new PrayerReplyMainItem(context, prayerReplies.get(position).getPrayer());
         listAdapter.add(prayerItem);
 //        ViewGroup prayerView = (ViewGroup) layoutInflater.inflate(prayerItem.getResourceId(), view, false);
 //        prayerItem.populate(prayerView);

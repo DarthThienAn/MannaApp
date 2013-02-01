@@ -10,4 +10,6 @@
     <color name="highlighted_text_holo_dark">#6633b5e5</color>
     <color name="highlighted_text_holo_light">#6633b5e5</color>
     <color name="background">#ccffff</color>
+    <color name="signature_background">#000000</color>
+    <color name="signature_corner">#ffffff</color>
 </resources>

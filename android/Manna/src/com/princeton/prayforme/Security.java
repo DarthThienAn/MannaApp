@@ -11,13 +11,13 @@ import java.util.Arrays;
 public class Security {
     /* returns a 32-char hash of s */
     public static String getMD5(String s) {
-        GlobalConstants.log("MD5", s);
+//        GlobalConstants.log("MD5", s);
         try {
             // Create MD5 Hash
             MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
             digest.update(s.getBytes());
             byte messageDigest[] = digest.digest();
-            GlobalConstants.log("MD5", Arrays.toString(messageDigest));
+//            GlobalConstants.log("MD5", Arrays.toString(messageDigest));
 
             // Create Hex String
             StringBuilder hexString = new StringBuilder();
@@ -26,7 +26,7 @@ public class Security {
                 if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
-            GlobalConstants.log("MD5", hexString.length() + " - " + hexString.toString());
+//            GlobalConstants.log("MD5", hexString.length() + " - " + hexString.toString());
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
@@ -36,7 +36,7 @@ public class Security {
     }
 
     public static View getColorSignature(LayoutInflater inflater, ViewGroup root, String s) {
-        GlobalConstants.log("MD5", "Color sig - " + s);
+//        GlobalConstants.log("MD5", "Color sig - " + s);
         int alpha = 0xFF000000;
         int i = 0;
         View view = inflater.inflate(R.layout.color_signature, root, false);

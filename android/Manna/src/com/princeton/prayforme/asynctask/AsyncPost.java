@@ -3,45 +3,45 @@ package com.princeton.prayforme.asynctask;
 import android.os.AsyncTask;
 import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.providers.RestTemplateProvider;
+import org.apache.http.HttpResponse;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.EventListener;
-
-public class AsyncGet<T> extends AsyncTask<String, String, T> {
+public class AsyncPost<T> extends AsyncTask<String, String, T> {
     private String url;
+    private String params;
     private Class<T> clazz;
-    private T result;
 
-    public AsyncGet(String url, Class<T> clazz) {
+    public AsyncPost(String url, String params, Class<T> clazz) {
         super();
         this.url = url;
         this.clazz = clazz;
+        this.params = params;
     }
 
     @Override
     protected T doInBackground(String... strings) {
         RestTemplate restTemplate = RestTemplateProvider.getRestTemplate();
-        T object = null;
-        try {
-            object = restTemplate.getForObject(url, clazz);
-            GlobalConstants.log("AsyncGet do", object);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(params, requestHeaders);
+
+        T object = restTemplate.postForObject(url, requestEntity, clazz);
+        GlobalConstants.log("AsyncPost do", object);
         return object;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        GlobalConstants.log("AsyncGet preexecute", "");
     }
 
     @Override
     protected void onPostExecute(T s) {
         super.onPostExecute(s);
-        GlobalConstants.log("AsyncGet success", s);
-        result = s;
+        GlobalConstants.log("AsyncPost success", s);
 
     }
 
@@ -53,17 +53,11 @@ public class AsyncGet<T> extends AsyncTask<String, String, T> {
     @Override
     protected void onCancelled(T s) {
         super.onCancelled(s);
-        GlobalConstants.log("AsyncGet canceled", s);
-        result = s;
+        GlobalConstants.log("AsyncPost canceled", s);
     }
 
     @Override
     protected void onCancelled() {
         super.onCancelled();
-        GlobalConstants.log("AsyncGet canceled", "no param");
-    }
-
-    public T getResult() {
-        return result;
     }
 }

@@ -12,15 +12,21 @@
             android:layout_width="fill_parent"
             android:background="@color/gray"
             android:minHeight="48dp">
-        <ImageView
-                android:id="@+id/prayer_image"
-                android:layout_gravity="center"
-                android:layout_height="52dp"
-                android:layout_width="52dp"
-                android:padding="4dp"
-                android:background="@color/white"
-                android:layout_marginRight="1dp"
-                android:src="@drawable/test" />
+        <!--<ImageView-->
+                <!--android:id="@+id/prayer_image"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_height="52dp"-->
+                <!--android:layout_width="52dp"-->
+                <!--android:padding="4dp"-->
+                <!--android:background="@color/white"-->
+                <!--android:layout_marginRight="1dp"-->
+                <!--android:src="@drawable/test" />-->
+        <LinearLayout android:id="@+id/prayer_image"
+                      android:layout_below="@id/post_header"
+                      android:layout_width="52dp"
+                      android:layout_height="52dp"
+                      android:layout_marginRight="1dp"
+                      android:background="@color/gray" />
         <TextView android:id="@+id/prayer_btn_pray"
                   android:text="Prays"
                   android:layout_height="wrap_content"
@@ -95,4 +101,33 @@
             android:text="content"
             android:textSize="16sp"
             style="@style/text" />
+    <LinearLayout
+            android:id="@+id/prayer_author_buttons"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="24dp"
+            android:paddingTop="2dp"
+            android:background="@color/dark_gray">
+        <TextView
+                android:id="@+id/prayer_btn_edit"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:textSize="14sp"
+                android:text="Edit"
+                android:background="@drawable/gray_holoblue" />
+        <TextView
+                android:id="@+id/prayer_btn_delete"
+                android:gravity="center"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:textSize="14sp"
+                android:text="Delete"
+                android:background="@drawable/gray_holoblue" />
+    </LinearLayout>
 </LinearLayout>

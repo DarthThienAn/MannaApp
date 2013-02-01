@@ -3,12 +3,14 @@ package com.princeton.prayforme;
 import android.util.Log;
 
 public class GlobalConstants {
-    static public final String LOGTAG = "PPFM";
-    static private final boolean DEBUG = true;
+    public static final String LOGTAG = "PPFM";
+    public static final String API = "http://shielded-plateau-4848.herokuapp.com/";
+
+    private static final boolean DEBUG = true;
 
 
     public static void log(String id, Object content) {
-        if (DEBUG) Log.d(LOGTAG, id + ": " + content.toString());
+        if (DEBUG) Log.d(LOGTAG, id + ": " + content);
     }
 
     // implementation of JDK 1.6 String.isEmpty() method.

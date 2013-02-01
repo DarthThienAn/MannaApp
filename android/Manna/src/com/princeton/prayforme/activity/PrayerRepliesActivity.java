@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.R;
+import com.princeton.prayforme.Security;
 import com.princeton.prayforme.adapter.PrayerReplyAdapter;
+import com.princeton.prayforme.asynctask.AsyncGet;
+import com.princeton.prayforme.helper.SharedPrefsHelper;
+import com.princeton.prayforme.helper.URLHelper;
 import com.princeton.prayforme.model.Prayer;
 import com.princeton.prayforme.model.PrayerReply;
 import com.princeton.prayforme.model.Reply;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 import java.util.Random;
 
@@ -21,6 +26,8 @@ public class PrayerRepliesActivity extends Activity {
 //    List<PrayerReply> prayerReplies;
     ViewPager viewPager;
     PrayerReplyAdapter prayerReplyAdapter;
+    URLHelper urlHelper;
+    SharedPrefsHelper prefsHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -28,13 +35,16 @@ public class PrayerRepliesActivity extends Activity {
         super.onCreate(savedInstanceState);
         GlobalConstants.log(getLocalClassName(), "create");
         setContentView(R.layout.activity_prayerview);
+        prefsHelper = new SharedPrefsHelper(getApplicationContext());
+        urlHelper = new URLHelper(prefsHelper.getName(), prefsHelper.getSignature());
+
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("prayers");
         prayers =  bundle.getParcelableArrayList("prayers");
         int pos = intent.getIntExtra("pos", 0);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        prayerReplyAdapter = new PrayerReplyAdapter(getLayoutInflater());
+        prayerReplyAdapter = new PrayerReplyAdapter(PrayerRepliesActivity.this);
         viewPager.setAdapter(prayerReplyAdapter);
 //        createDummyPrayers();
 
@@ -42,21 +52,42 @@ public class PrayerRepliesActivity extends Activity {
         viewPager.setCurrentItem(pos);
     }
 
-    private void createDummyPrayers() {
-        Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            String content = "" + random.nextInt(100);
-            prayers.add(new Prayer("misc", "subject", content, i, i + 1, i + 1));
-        }
-    }
+//    private void createDummyPrayers() {
+//        Random random = new Random();
+//        for (int i = 0; i < 10; i++) {
+//            String content = "" + random.nextInt(100);
+//            prayers.add(new Prayer("misc", "subject", content, Security.getMD5("name" + i), i, i + 1, i + 1));
+//        }
+//    }
 
     private void populatePrayers() {
-        for (Prayer prayer : prayers) {
-//            View item = getLayoutInflater().inflate(R.layout.item_prayerview, viewPager, false);
-//            ((TextView) item.findViewById(R.id.prayer_text)).setText(prayer.getContent());
-            PrayerReply prayerReply = new PrayerReply(prayer, createDummyReplies());
+        GlobalConstants.log("PRA", "populate");
+        AsyncGet<Prayer> getPrayerTask = new AsyncGet<Prayer>(urlHelper.getPrayerURL(1), Prayer.class) {
+            @Override
+            protected void onPostExecute(Prayer s) {
+                super.onPostExecute(s);
+                GlobalConstants.log("PRA", "success: " + s);
+                if (s != null)
+                    prayerReplyAdapter.addItem(new PrayerReply(s, createDummyReplies()));
+            }
+        };
+
+        getPrayerTask.execute();
+
+//        Prayer prayer1 = getPrayerTask.getResult();
+//        EventListener listener = new EventListener() {
+//
+//        };
+//        prayerReplyAdapter.addItem(new PrayerReply(prayer1, createDummyReplies()));
+
+            PrayerReply prayerReply = new PrayerReply(prayers.get(0), createDummyReplies());
             prayerReplyAdapter.addItem(prayerReply);
-        }
+
+
+//        for (Prayer prayer : prayers) {
+//            PrayerReply prayerReply = new PrayerReply(prayer, createDummyReplies());
+//            prayerReplyAdapter.addItem(prayerReply);
+//        }
     }
 
     private List<Reply> createDummyReplies() {

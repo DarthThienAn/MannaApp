@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
+import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.R;
 import com.princeton.prayforme.activity.RepliesActivity;
 import com.princeton.prayforme.model.Prayer;
@@ -29,19 +30,19 @@ public class PrayerItem2 extends ListItem<Prayer> {
     @Override
     public void populate(View view) {
         TextView text = (TextView) view.findViewById(R.id.prayer_text);
-        text.setText(model.getContent());
+        text.setText(model.getMessage());
 
         TextView commentButton = (TextView) view.findViewById(R.id.prayer_btn_reply);
         commentButton.setText(String.format("Replies(%d)", model.getTimesReplied()));
         commentButton.setOnClickListener(repliesOnClickListener);
 
         TextView prayButton = (TextView) view.findViewById(R.id.prayer_btn_pray);
-        prayButton.setText(String.format("Prays(%d)", model.getTimesPrayed()));
+        prayButton.setText(String.format("Prays(%d)", model.getTimesPrayedFor()));
         prayButton.setEnabled(!model.isPrayedFor());
         prayButton.setOnClickListener(prayOnClickListener);
 
         TextView timestamp = (TextView) view.findViewById(R.id.prayer_timestamp);
-        timestamp.setText(String.format("Posted by %s %d minutes ago", model.getAuthor(), model.getTimestamp()));
+        timestamp.setText(String.format("Posted by %s %d minutes ago", GlobalConstants.isNullOrEmpty(model.getAuthor()) ? "Anonymous" : model.getAuthor(), model.getTimestamp()));
     }
 
     private final View.OnClickListener repliesOnClickListener = new View.OnClickListener() {
@@ -60,7 +61,7 @@ public class PrayerItem2 extends ListItem<Prayer> {
             TextView prayButton = (TextView) view.findViewById(R.id.prayer_btn_pray);
             prayButton.setEnabled(false);
             model.setPrayedFor(true);
-            prayButton.setText(String.format("Prays(%d)", model.getTimesPrayed()));
+            prayButton.setText(String.format("Prays(%d)", model.getTimesPrayedFor()));
         }
     };
 }

@@ -19,6 +19,11 @@ public class SharedPrefsHelper {
         editor = sharedPreferences.edit();
     }
 
+    public void clear() {
+        editor.clear();
+        editor.commit();
+    }
+
     public void saveName(String name) {
         editor.putString(KEY_NAME, name);
         editor.commit();

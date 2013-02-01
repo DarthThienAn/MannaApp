@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.princeton.prayforme.R;
+import com.princeton.prayforme.Security;
 import com.princeton.prayforme.adapter.ListAdapter;
 import com.princeton.prayforme.asynctask.AsyncGet;
 import com.princeton.prayforme.list.*;
@@ -20,8 +21,6 @@ import java.util.List;
 public class PrayersActivity extends Activity {
 
     ListView listview;
-    int count = 0;
-
     List<Prayer> prayers;
     ListAdapter adapter;
 
@@ -117,23 +116,24 @@ public class PrayersActivity extends Activity {
         String[] authors = { "Mark my name is really long", "Daniel", "David", "Joel", "Sam"};
         String[] subject = { "Need prayer for thesis", "Tough times", "Finals", "Busy week", "Need a friend"};
         String[] content = { "hello world", "Hey how you all doing my name is Daniel and I'm looking to fight some lions next week, so if you can pray for that, it'd be great thanks!", "Pray for my life", "I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.", "Green eggs and ham"};
+        String[] signatures = { "Need prayer for thesis", "Tough times", "Finals", "Busy week", "Need a friend"};
         int[] times = { 1, 2, 3, 2, 1 };
         int[] replies = { 0, 2, 4, 1, 3 };
 
         for (int i = 0; i < 5; i++) {
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i], times[i] + 5, replies[i]);
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, 0);
             PrayerItem prayerItem = new PrayerItem(prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);
         }
         for (int i = 0; i < 5; i++) {
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i],  times[i] + 5,replies[i]);
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, 0);
             PrayerItem2 prayerItem = new PrayerItem2(PrayersActivity.this, prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);
         }
         for (int i = 0; i < 5; i++) {
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], times[i],  times[i] + 5,replies[i]);
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, 0);
             PrayerItem3 prayerItem = new PrayerItem3(PrayersActivity.this, prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);
@@ -176,42 +176,42 @@ public class PrayersActivity extends Activity {
         }
     };
 
-    private Dialog createDialog(String titleString, String textString, String editHintString, String yesText, String noText) {
-        final Dialog dialog = new Dialog(PrayersActivity.this, R.style.dialog_no_title_fill);
-        dialog.setContentView(R.layout.prayers_dialog);
-
-        final TextView title = (TextView) dialog.findViewById(R.id.dialog_title);
-        final TextView text = (TextView) dialog.findViewById(R.id.dialog_text);
-        final EditText edit = (EditText) dialog.findViewById(R.id.dialog_edit);
-        final Button yes = (Button) dialog.findViewById(R.id.dialog_yes);
-        final Button no = (Button) dialog.findViewById(R.id.dialog_no);
-
-        title.setText(titleString);
-        text.setText(textString);
-        edit.setHint(editHintString);
-        yes.setText(yesText);
-        no.setText(noText);
-
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Prayer prayer = new Prayer("Myself", "MY SUBJECT", edit.getText().toString(), 0, 1, 1);
-                PrayerItem prayerItem = new PrayerItem(prayer);
-                prayers.add(prayer);
-                adapter.add(prayerItem);
-                dialog.dismiss();
-            }
-        });
-        no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.setCancelable(true);
-        return dialog;
-    }
+//    private Dialog createDialog(String titleString, String textString, String editHintString, String yesText, String noText) {
+//        final Dialog dialog = new Dialog(PrayersActivity.this, R.style.dialog_no_title_fill);
+//        dialog.setContentView(R.layout.prayers_dialog);
+//
+//        final TextView title = (TextView) dialog.findViewById(R.id.dialog_title);
+//        final TextView text = (TextView) dialog.findViewById(R.id.dialog_text);
+//        final EditText edit = (EditText) dialog.findViewById(R.id.dialog_edit);
+//        final Button yes = (Button) dialog.findViewById(R.id.dialog_yes);
+//        final Button no = (Button) dialog.findViewById(R.id.dialog_no);
+//
+//        title.setText(titleString);
+//        text.setText(textString);
+//        edit.setHint(editHintString);
+//        yes.setText(yesText);
+//        no.setText(noText);
+//
+//        yes.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Prayer prayer = new Prayer("Myself", "MY SUBJECT", edit.getText().toString(), Security.getMD5("SIGNATURE"), 0, 1, 1);
+//                PrayerItem prayerItem = new PrayerItem(prayer);
+//                prayers.add(prayer);
+//                adapter.add(prayerItem);
+//                dialog.dismiss();
+//            }
+//        });
+//        no.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        dialog.setCancelable(true);
+//        return dialog;
+//    }
 
     private void populate() {
         AsyncGet<String> task = new AsyncGet<String>("http://api.sonar.me/v1/users/505622cde4b04828a245d6a5/statuses?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);

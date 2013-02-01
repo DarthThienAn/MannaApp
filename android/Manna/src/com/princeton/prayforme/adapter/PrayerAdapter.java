@@ -37,7 +37,7 @@ public class PrayerAdapter extends PagerAdapter {
         TextView title = (TextView) view.findViewById(R.id.prayer_title);
         TextView text = (TextView) view.findViewById(R.id.prayer_text);
         title.setText(String.format("Posted by %s", prayers.get(position).getAuthor()));
-        text.setText(prayers.get(position).getContent());
+        text.setText(prayers.get(position).getMessage());
 
         container.addView(view);
         return view;

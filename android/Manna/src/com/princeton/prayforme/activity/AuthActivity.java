@@ -9,6 +9,7 @@ import android.webkit.*;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.princeton.prayforme.R;
+import com.princeton.prayforme.Security;
 import com.princeton.prayforme.helper.SharedPrefsHelper;
 
 public class AuthActivity extends Activity {
@@ -38,7 +39,7 @@ public class AuthActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     prefsHelper.saveName(nameEdit.getText().toString());
-                    prefsHelper.saveSignature(signatureEdit.getText().toString());
+                    prefsHelper.saveSignature(Security.getMD5(signatureEdit.getText().toString()));
                     prefsHelper.setFirst();
                     startPrayersActivity();
                 }
@@ -47,6 +48,7 @@ public class AuthActivity extends Activity {
             anonButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    prefsHelper.clear();
                     prefsHelper.setFirst();
                     startPrayersActivity();
                 }
