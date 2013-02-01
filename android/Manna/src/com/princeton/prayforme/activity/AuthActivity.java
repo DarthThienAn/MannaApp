@@ -8,6 +8,8 @@ import android.view.View;
 import android.webkit.*;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.R;
 import com.princeton.prayforme.Security;
 import com.princeton.prayforme.helper.SharedPrefsHelper;
@@ -38,6 +40,15 @@ public class AuthActivity extends Activity {
             goButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (GlobalConstants.isNullOrEmpty(nameEdit.getText().toString())) {
+                        Toast.makeText(AuthActivity.this, R.string.auth_name_toast, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else if (GlobalConstants.isNullOrEmpty(signatureEdit.getText().toString())) {
+                        Toast.makeText(AuthActivity.this, R.string.auth_signature_toast, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     prefsHelper.saveName(nameEdit.getText().toString());
                     prefsHelper.saveSignature(Security.getMD5(signatureEdit.getText().toString()));
                     prefsHelper.setFirst();

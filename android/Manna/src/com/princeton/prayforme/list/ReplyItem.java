@@ -2,6 +2,7 @@ package com.princeton.prayforme.list;
 
 import android.view.View;
 import android.widget.TextView;
+import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.R;
 import com.princeton.prayforme.model.Reply;
 
@@ -28,6 +29,6 @@ public class ReplyItem extends ListItem<Reply> {
         TextView text = (TextView) view.findViewById(R.id.reply_text);
         text.setText(model.getContent());
         TextView timestamp = (TextView) view.findViewById(R.id.reply_timestamp);
-        timestamp.setText(String.format("Posted by %s %d minutes ago", model.getAuthor() == null ? "Anonymous" : model.getAuthor(), model.getTimestamp()));
+        timestamp.setText(String.format("Posted by %s %s minutes ago", GlobalConstants.isNullOrEmpty(model.getPerson()) ? "Anonymous" : model.getPerson(), model.getTimestamp()));
     }
 }

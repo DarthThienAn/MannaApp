@@ -43,7 +43,7 @@ public class PrayerItem extends ListItem<Prayer> {
             }
         });
 
-        title.setText(String.format("Posted by %s", GlobalConstants.isNullOrEmpty(model.getAuthor()) ? "Anonymous" : model.getAuthor()));
+        title.setText(String.format("Posted by %s", GlobalConstants.isNullOrEmpty(model.getPerson()) ? "Anonymous" : model.getPerson()));
         text.setText(model.getMessage());
     }
 }

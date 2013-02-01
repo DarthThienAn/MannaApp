@@ -42,7 +42,7 @@ public class PrayerItem2 extends ListItem<Prayer> {
         prayButton.setOnClickListener(prayOnClickListener);
 
         TextView timestamp = (TextView) view.findViewById(R.id.prayer_timestamp);
-        timestamp.setText(String.format("Posted by %s %d minutes ago", GlobalConstants.isNullOrEmpty(model.getAuthor()) ? "Anonymous" : model.getAuthor(), model.getTimestamp()));
+        timestamp.setText(String.format("Posted by %s %s minutes ago", GlobalConstants.isNullOrEmpty(model.getPerson()) ? "Anonymous" : model.getPerson(), model.getTimestamp()));
     }
 
     private final View.OnClickListener repliesOnClickListener = new View.OnClickListener() {

@@ -42,7 +42,7 @@ public class PostActivity extends Activity {
         String signature = prefsHelper.getSignature();
 
         TextView author = (TextView) findViewById(R.id.post_author);
-        author.setText(name == null ? "Anonymous" : name);
+        author.setText(GlobalConstants.isNullOrEmpty(name) ? "Anonymous" : name);
 
         String md5 = Security.getMD5(name + signature);
         secView = Security.getColorSignature(getLayoutInflater(), mainLayout, md5);

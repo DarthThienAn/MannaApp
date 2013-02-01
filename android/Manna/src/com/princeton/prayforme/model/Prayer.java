@@ -2,19 +2,24 @@ package com.princeton.prayforme.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class Prayer implements Parcelable {
-    private String author;
+    private String person;
     private String subject;
     private String message;
     private String signature;
     private int timesPrayedFor;
     private int[] replies;
-    private long timestamp;
+    private String timestamp;
     private boolean prayedFor;
 
-    public Prayer(String author, String subject, String message, String signature, int timesPrayedFor, int[] replies, long timestamp, boolean prayedFor) {
-        this.author = author;
+    public Prayer() {
+
+    }
+
+    public Prayer(String person, String subject, String message, String signature, int timesPrayedFor, int[] replies, String timestamp, boolean prayedFor) {
+        this.person = person;
         this.subject = subject;
         this.message = message;
         this.signature = signature;
@@ -22,26 +27,29 @@ public class Prayer implements Parcelable {
         this.replies = replies;
         this.timestamp = timestamp;
         this.prayedFor = prayedFor;
+        Log.d("PPFM", "1");
     }
 
-    public Prayer(String author, String subject, String message, String signature, int timesPrayedFor, int[] replies, long timestamp) {
-        this.author = author;
+    public Prayer(String person, String subject, String message, String signature, int timesPrayedFor, int[] replies, String timestamp) {
+        this.person = person;
         this.subject = subject;
         this.message = message;
         this.signature = signature;
         this.timesPrayedFor = timesPrayedFor;
         this.replies = replies;
         this.timestamp = timestamp;
+        Log.d("PPFM", "2");
     }
 
-    public Prayer(String subject, String message, String signature, int timesPrayedFor, int[] replies, long timestamp) {
+    public Prayer(String subject, String message, String signature, int timesPrayedFor, int[] replies, String timestamp) {
         this.subject = subject;
         this.message = message;
         this.signature = signature;
         this.timesPrayedFor = timesPrayedFor;
         this.replies = replies;
         this.timestamp = timestamp;
-        author = "Author";
+        person = "Author";
+        Log.d("PPFM", "3");
     }
 
     public boolean isPrayedFor() {
@@ -68,12 +76,12 @@ public class Prayer implements Parcelable {
         this.message = message;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getPerson() {
+        return person;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setPerson(String person) {
+        this.person = person;
     }
 
     public int getTimesPrayedFor() {
@@ -88,11 +96,11 @@ public class Prayer implements Parcelable {
         timesPrayedFor++;
     }
 
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -123,14 +131,14 @@ public class Prayer implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(author);
+        parcel.writeString(person);
         parcel.writeString(subject);
         parcel.writeString(message);
         parcel.writeString(signature);
         parcel.writeInt(timesPrayedFor);
         parcel.writeInt(replies.length);
         parcel.writeIntArray(replies);
-        parcel.writeLong(timestamp);
+        parcel.writeString(timestamp);
         boolean[] booleans = { prayedFor };
         parcel.writeBooleanArray(booleans);
     }
@@ -146,7 +154,7 @@ public class Prayer implements Parcelable {
             int timesPrayed = parcel.readInt();
             int[] replies = new int[parcel.readInt()];
             parcel.readIntArray(replies);
-            long timestamp = parcel.readLong();
+            String timestamp = parcel.readString();
             boolean[] booleans = new boolean[1];
             parcel.readBooleanArray(booleans);
             return new Prayer(author, subject, content, signature, timesPrayed, replies, timestamp, booleans[0]);
@@ -162,7 +170,7 @@ public class Prayer implements Parcelable {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("Prayer");
-        sb.append("{author='").append(author).append('\'');
+        sb.append("{person='").append(person).append('\'');
         sb.append(", subject='").append(subject).append('\'');
         sb.append(", message='").append(message).append('\'');
         sb.append(", signature='").append(signature).append('\'');

@@ -12,6 +12,7 @@ import com.princeton.prayforme.R;
 import com.princeton.prayforme.Security;
 import com.princeton.prayforme.adapter.ListAdapter;
 import com.princeton.prayforme.asynctask.AsyncGet;
+import com.princeton.prayforme.helper.SharedPrefsHelper;
 import com.princeton.prayforme.list.*;
 import com.princeton.prayforme.model.Prayer;
 
@@ -96,6 +97,16 @@ public class PrayersActivity extends Activity {
                 return true;
             }
         });
+        menu.findItem(R.id.menu_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                SharedPrefsHelper prefsHelper = new SharedPrefsHelper(getApplicationContext());
+                prefsHelper.clear();
+                startActivity(new Intent(getApplicationContext(), AuthActivity.class));
+                finish();
+                return true;
+            }
+        });
         return true;
     }
 
@@ -120,20 +131,20 @@ public class PrayersActivity extends Activity {
         int[] times = { 1, 2, 3, 2, 1 };
         int[] replies = { 0, 2, 4, 1, 3 };
 
+//        for (int i = 0; i < 5; i++) {
+//            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, "timestamp");
+//            PrayerItem prayerItem = new PrayerItem(prayer);
+//            adapter.add(prayerItem);
+//            prayers.add(prayer);
+//        }
         for (int i = 0; i < 5; i++) {
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, 0);
-            PrayerItem prayerItem = new PrayerItem(prayer);
-            adapter.add(prayerItem);
-            prayers.add(prayer);
-        }
-        for (int i = 0; i < 5; i++) {
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, 0);
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, "timestamp");
             PrayerItem2 prayerItem = new PrayerItem2(PrayersActivity.this, prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);
         }
         for (int i = 0; i < 5; i++) {
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, 0);
+            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, "timestamp");
             PrayerItem3 prayerItem = new PrayerItem3(PrayersActivity.this, prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);

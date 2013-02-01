@@ -1,24 +1,24 @@
 package com.princeton.prayforme.model;
 
 public class Reply {
-    private String author;
+    private String person;
     private String subject;
     private String content;
     private long timestamp;
 
     public Reply(String author, String subject, String content, long timestamp) {
-        this.author = author;
+        this.person = author;
         this.subject = subject;
         this.content = content;
         this.timestamp = timestamp;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getPerson() {
+        return person;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setPerson(String person) {
+        this.person = person;
     }
 
     public String getSubject() {

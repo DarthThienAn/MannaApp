@@ -39,18 +39,6 @@ public class URLHelper {
         return buildBasicURL("");
     }
 
-    public String prayerURL() {
-        return buildBasicURL("prayers");
-    }
-
-    public String repliesURL() {
-        return buildBasicURL("replies");
-    }
-
-    public String personURL() {
-        return buildBasicURL("person");
-    }
-
     // POST builders
     public String postPrayer(String name, String subject, String message) {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
@@ -75,7 +63,7 @@ public class URLHelper {
     public String getPrayerURL(int prayer_id) {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         params.add(new BasicNameValuePair("prayer_id", String.valueOf(prayer_id)));
-        return buildGetURL("prayers", params);
+        return buildGetURL("prayer", params);
     }
 
     public String getReplyURL(int[] reply_ids) {
@@ -100,7 +88,8 @@ public class URLHelper {
     }
 
     public String buildParams(List<NameValuePair> params) {
-        params.add(new BasicNameValuePair("signature", signature));
+        if (!GlobalConstants.isNullOrEmpty(signature))
+            params.add(new BasicNameValuePair("signature", signature));
 
         return URLEncodedUtils.format(params, "utf-8");
     }

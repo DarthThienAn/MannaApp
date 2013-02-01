@@ -10,7 +10,6 @@ import java.util.EventListener;
 public class AsyncGet<T> extends AsyncTask<String, String, T> {
     private String url;
     private Class<T> clazz;
-    private T result;
 
     public AsyncGet(String url, Class<T> clazz) {
         super();
@@ -26,6 +25,7 @@ public class AsyncGet<T> extends AsyncTask<String, String, T> {
             object = restTemplate.getForObject(url, clazz);
             GlobalConstants.log("AsyncGet do", object);
         } catch (Exception e) {
+            GlobalConstants.log("AsyncGet do failed", e);
             e.printStackTrace();
         }
         return object;
@@ -41,8 +41,6 @@ public class AsyncGet<T> extends AsyncTask<String, String, T> {
     protected void onPostExecute(T s) {
         super.onPostExecute(s);
         GlobalConstants.log("AsyncGet success", s);
-        result = s;
-
     }
 
     @Override
@@ -54,16 +52,11 @@ public class AsyncGet<T> extends AsyncTask<String, String, T> {
     protected void onCancelled(T s) {
         super.onCancelled(s);
         GlobalConstants.log("AsyncGet canceled", s);
-        result = s;
     }
 
     @Override
     protected void onCancelled() {
         super.onCancelled();
         GlobalConstants.log("AsyncGet canceled", "no param");
-    }
-
-    public T getResult() {
-        return result;
     }
 }
