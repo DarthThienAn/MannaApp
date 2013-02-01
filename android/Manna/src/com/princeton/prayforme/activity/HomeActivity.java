@@ -37,11 +37,11 @@ public class HomeActivity extends Activity {
                 startActivity(new Intent(getApplicationContext(), PrayersActivity.class));
             }
         });
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
-            }
-        });
+//        settingsButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+//            }
+//        });
     }
 }
