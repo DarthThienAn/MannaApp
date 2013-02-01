@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:background="@color/background"
-                android:padding="8dp"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-            >
+              android:orientation="vertical"
+              android:background="@color/background"
+              android:padding="8dp"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
 
     <ImageView android:layout_width="fill_parent"
                android:layout_height="96dp"
@@ -19,63 +19,62 @@
             android:gravity="center_horizontal"
             android:padding="8dp"
             android:textColor="#000000"
-            android:text="Welcome to the Princeton Pray For Me!"
-            />
-    <TextView
-            android:id="@+id/auth_email"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="Email"
-            />
-    <EditText
-            android:id="@+id/auth_email_entry"
-            android:inputType="textEmailAddress"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter email address here"
+            android:text="@string/auth_welcome"
             />
     <TextView
             android:id="@+id/auth_name"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="@string/name"
-            />
-    <EditText
-            android:id="@+id/auth_name_entry"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Your name here"
+            android:text="@string/auth_name"
+            />
+    <EditText
+            android:id="@+id/auth_name_edit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/auth_name_hint"
             />
     <TextView
-            android:id="@+id/auth_year"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="@string/year"
-            />
-    <EditText
-            android:id="@+id/auth_year_entry"
+            android:id="@+id/auth_signature"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Class of ?"
+            android:text="@string/auth_color_signature"
+            />
+    <EditText
+            android:id="@+id/auth_signature_edit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/auth_color_signature_hint"
             />
     <LinearLayout android:layout_height="wrap_content"
                   android:layout_width="fill_parent"
+                  android:background="@color/dark_gray"
+                  android:padding="4dp"
                   android:gravity="center"
                   android:orientation="horizontal">
-    <Button
-            android:id="@+id/auth_btn_go"
-            android:minWidth="100dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/go"
-            />
-    <Button
-            android:id="@+id/auth_btn_anon"
-            android:minWidth="100dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Go as Anonymous"
-            />
+        <TextView
+                android:id="@+id/auth_btn_go"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/white_holoblue"
+                android:layout_marginRight="1dp"
+                android:padding="8dp"
+                android:textStyle="bold"
+                android:text="@string/auth_go"
+                />
+        <TextView
+                android:id="@+id/auth_btn_anon"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/white_holoblue"
+                android:layout_marginLeft="1dp"
+                android:padding="8dp"
+                android:textStyle="bold"
+                android:text="@string/auth_anonymous"
+                />
     </LinearLayout>
 </LinearLayout>
 

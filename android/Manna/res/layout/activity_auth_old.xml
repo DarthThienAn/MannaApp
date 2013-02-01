@@ -20,7 +20,7 @@
             android:layout_below="@id/auth_welcome"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="@string/name"
+            android:text="@string/auth_name"
             />
     <EditText
             android:id="@+id/auth_name_entry"
@@ -34,7 +34,7 @@
             android:layout_below="@id/auth_name_entry"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="@string/year"
+            android:text="year"
             />
     <EditText
             android:id="@+id/auth_year_entry"
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/go"
+            android:text="@string/auth_go"
             />
     <Button
             android:id="@+id/auth_btn_anon"

@@ -41,17 +41,14 @@
 
     </RelativeLayout>
 
-    <ImageView android:id="@+id/post_avatar"
+    <LinearLayout android:id="@+id/post_avatar"
                android:layout_below="@id/post_header"
-               android:layout_width="48dp"
-               android:layout_height="48dp"
-               android:padding="2dp"
+               android:layout_width="50dp"
+               android:layout_height="50dp"
+               android:padding="1dp"
                android:layout_marginLeft="8dp"
                android:layout_marginTop="8dp"
-               android:background="@color/gray"
-               android:adjustViewBounds="true"
-               android:scaleType="fitCenter"
-               android:src="@drawable/tiger" />
+               android:background="@color/gray" />
 
     <EditText android:id="@+id/post_text"
               style="@style/text"

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MannaApp</string>
+    <string name="app_name">Princeton Pray For Me</string>
 
-    <string name="name">Name</string>
-    <string name="year">Year</string>
-    <string name="go">GO</string>
-    <string name="anonymous">Anonymous</string>
+    <string name="auth_welcome">Welcome to the Princeton Pray For Me!</string>
+    <string name="auth_name">Display Name</string>
+    <string name="auth_name_hint">Enter your display name here</string>
+    <string name="auth_color_signature">Color Signature</string>
+    <string name="auth_color_signature_hint">Enter your signature (any word)</string>
+    <string name="auth_go">Go</string>
+    <string name="auth_anonymous">Go as Anonymous</string>
 </resources>
