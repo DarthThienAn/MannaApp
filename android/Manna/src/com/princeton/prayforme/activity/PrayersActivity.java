@@ -13,13 +13,17 @@ import com.princeton.prayforme.Security;
 import com.princeton.prayforme.adapter.ListAdapter;
 import com.princeton.prayforme.asynctask.AsyncGet;
 import com.princeton.prayforme.helper.SharedPrefsHelper;
+import com.princeton.prayforme.helper.URLHelper;
 import com.princeton.prayforme.list.*;
 import com.princeton.prayforme.model.Prayer;
+import com.princeton.prayforme.model.PrayerList;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PrayersActivity extends Activity {
+
+    private static final int RECENT_COUNT = 10;
 
     ListView listview;
     List<Prayer> prayers;
@@ -89,14 +93,14 @@ public class PrayersActivity extends Activity {
                 return true;
             }
         });
-        menu.findItem(R.id.menu_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                populate();
-//                startActivity(new Intent(getApplicationContext(), RepliesActivity.class));
-                return true;
-            }
-        });
+//        menu.findItem(R.id.menu_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//                populate();
+////                startActivity(new Intent(getApplicationContext(), RepliesActivity.class));
+//                return true;
+//            }
+//        });
         menu.findItem(R.id.menu_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -137,12 +141,12 @@ public class PrayersActivity extends Activity {
 //            adapter.add(prayerItem);
 //            prayers.add(prayer);
 //        }
-        for (int i = 0; i < 5; i++) {
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, "timestamp");
-            PrayerItem2 prayerItem = new PrayerItem2(PrayersActivity.this, prayer);
-            adapter.add(prayerItem);
-            prayers.add(prayer);
-        }
+//        for (int i = 0; i < 5; i++) {
+//            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, "timestamp");
+//            PrayerItem2 prayerItem = new PrayerItem2(PrayersActivity.this, prayer);
+//            adapter.add(prayerItem);
+//            prayers.add(prayer);
+//        }
         for (int i = 0; i < 5; i++) {
             Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, "timestamp");
             PrayerItem3 prayerItem = new PrayerItem3(PrayersActivity.this, prayer);
@@ -154,27 +158,27 @@ public class PrayersActivity extends Activity {
     final AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            if (adapter.getItem(i).getType() == ListItemType.PRAYER) {
-                Intent intent = new Intent(getApplicationContext(), PrayerViewActivity.class);
-                intent.putExtra("pos", i);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("prayers", (ArrayList<Prayer>) prayers);
-                intent.putExtra("prayers", bundle);
-                //            Parcelable[] data = new Parcelable[1];
-                //            intent.putExtra("prayers", );
-                startActivity(intent);
-            }
-            else if (adapter.getItem(i).getType() == ListItemType.PRAYER2) {
-                Intent intent = new Intent(getApplicationContext(), PrayerRepliesActivity.class);
-                intent.putExtra("pos", i);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("prayers", (ArrayList<Prayer>) prayers);
-                intent.putExtra("prayers", bundle);
-                //            Parcelable[] data = new Parcelable[1];
-                //            intent.putExtra("prayers", );
-                startActivity(intent);
-            }
-            else if (adapter.getItem(i).getType() == ListItemType.PRAYER3) {
+//            if (adapter.getItem(i).getType() == ListItemType.PRAYER) {
+//                Intent intent = new Intent(getApplicationContext(), PrayerViewActivity.class);
+//                intent.putExtra("pos", i);
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayList("prayers", (ArrayList<Prayer>) prayers);
+//                intent.putExtra("prayers", bundle);
+//                //            Parcelable[] data = new Parcelable[1];
+//                //            intent.putExtra("prayers", );
+//                startActivity(intent);
+//            }
+//            else if (adapter.getItem(i).getType() == ListItemType.PRAYER2) {
+//                Intent intent = new Intent(getApplicationContext(), PrayerRepliesActivity.class);
+//                intent.putExtra("pos", i);
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayList("prayers", (ArrayList<Prayer>) prayers);
+//                intent.putExtra("prayers", bundle);
+//                //            Parcelable[] data = new Parcelable[1];
+//                //            intent.putExtra("prayers", );
+//                startActivity(intent);
+//            }
+            if (adapter.getItem(i).getType() == ListItemType.PRAYER3) {
                 Intent intent = new Intent(getApplicationContext(), PrayerRepliesActivity.class);
                 intent.putExtra("pos", i);
                 Bundle bundle = new Bundle();
@@ -225,9 +229,13 @@ public class PrayersActivity extends Activity {
 //    }
 
     private void populate() {
-        AsyncGet<String> task = new AsyncGet<String>("http://api.sonar.me/v1/users/505622cde4b04828a245d6a5/statuses?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);
-//        String object = restTemplate.getForObject("http://api.sonar.me/users/self?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);
-//        String object = restTemplate.getForObject("http://api.sonar.me/v1/users/505622cde4b04828a245d6a5/statuses?auth_token=yhjCcW0te5Hc7iLzH-aUSA", String.class);
+        AsyncGet<PrayerList> task = new AsyncGet<PrayerList>(URLHelper.getRecentURL(RECENT_COUNT), PrayerList.class) {
+            @Override
+            protected void onPostExecute(PrayerList s) {
+                super.onPostExecute(s);
+
+            }
+        };
         task.execute();
     }
 }

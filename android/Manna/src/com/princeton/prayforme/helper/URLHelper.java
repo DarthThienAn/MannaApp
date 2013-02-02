@@ -10,48 +10,31 @@ import java.util.*;
 
 public class URLHelper {
 
-    private String name;
-    private String signature;
-
-    public URLHelper(String name, String signature) {
-        this.name = name;
-        this.signature = signature;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
-
     // Basic URLs
-    public String rootURL() {
+    public static String rootURL() {
         return buildBasicURL("");
     }
 
+    public static String prayerURL() {
+        return buildBasicURL("prayer");
+    }
+
     // POST builders
-    public String postPrayer(String name, String subject, String message) {
+    public static String postPrayer(String signature, String person, String subject, String message) {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
-        params.add(new BasicNameValuePair("name", name));
+        params.add(new BasicNameValuePair("signature", signature));
+        params.add(new BasicNameValuePair("person", person));
         params.add(new BasicNameValuePair("subject", subject));
         params.add(new BasicNameValuePair("message", message));
+        params.add(new BasicNameValuePair("kind", "1"));
 
         return buildParams(params);
     }
 
-    public String postReply(String name, String subject, String message) {
+    public static String postReply(String signature, String person, String subject, String message) {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
-        params.add(new BasicNameValuePair("name", name));
+        params.add(new BasicNameValuePair("signature", signature));
+        params.add(new BasicNameValuePair("person", person));
         params.add(new BasicNameValuePair("subject", subject));
         params.add(new BasicNameValuePair("message", message));
 
@@ -60,13 +43,19 @@ public class URLHelper {
 
     // GET URLs
 
-    public String getPrayerURL(int prayer_id) {
+    public static String getRecentURL(int count) {
+        List<NameValuePair> params = new LinkedList<NameValuePair>();
+        params.add(new BasicNameValuePair("count", String.valueOf(count)));
+        return buildGetURL("recent", params);
+    }
+
+    public static String getPrayerURL(int prayer_id) {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         params.add(new BasicNameValuePair("prayer_id", String.valueOf(prayer_id)));
         return buildGetURL("prayer", params);
     }
 
-    public String getReplyURL(int[] reply_ids) {
+    public static String getReplyURL(int[] reply_ids) {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         for (int id : reply_ids) {
             params.add(new BasicNameValuePair("reply_id", String.valueOf(id)));
@@ -75,22 +64,19 @@ public class URLHelper {
     }
 
     // helper methods
-    private String buildBasicURL(String endpoint) {
+    private static String buildBasicURL(String endpoint) {
         return GlobalConstants.API + endpoint;
     }
 
-    private  String buildGetURL(String endpoint) {
+    private static String buildGetURL(String endpoint) {
         return buildGetURL(endpoint, new LinkedList<NameValuePair>());
     }
 
-    private  String buildGetURL(String endpoint, List<NameValuePair> params) {
+    private static String buildGetURL(String endpoint, List<NameValuePair> params) {
         return buildBasicURL(endpoint) + "?" + buildParams(params);
     }
 
-    public String buildParams(List<NameValuePair> params) {
-        if (!GlobalConstants.isNullOrEmpty(signature))
-            params.add(new BasicNameValuePair("signature", signature));
-
+    public static String buildParams(List<NameValuePair> params) {
         return URLEncodedUtils.format(params, "utf-8");
     }
 }

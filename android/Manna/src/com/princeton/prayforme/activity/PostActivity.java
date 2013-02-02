@@ -1,6 +1,7 @@
 package com.princeton.prayforme.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.princeton.prayforme.Security;
 import com.princeton.prayforme.asynctask.AsyncGet;
 import com.princeton.prayforme.asynctask.AsyncPost;
 import com.princeton.prayforme.helper.SharedPrefsHelper;
+import com.princeton.prayforme.helper.URLHelper;
+import com.princeton.prayforme.model.PostResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -27,12 +30,15 @@ public class PostActivity extends Activity {
     View secView;
     SharedPrefsHelper prefsHelper;
 
+    ProgressDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
         final EditText text = (EditText) findViewById(R.id.post_text);
+        final EditText subject = (EditText) findViewById(R.id.post_subject);
         avatar = (ViewGroup) findViewById(R.id.post_avatar);
         mainLayout = (ViewGroup) getWindow().getDecorView().getRootView();
 
@@ -53,25 +59,42 @@ public class PostActivity extends Activity {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GlobalConstants.log("Post", "post button clicked: " + text.getText().toString());
-                AsyncPost<String> task = new AsyncPost<String>("http://api.sonar.me/v1/users/505622cde4b04828a245d6a5/statuses", buildParams(new ArrayList<NameValuePair>()), String.class);
+                GlobalConstants.log("Post", "post: " + subject.getText().toString() + ": " + text.getText().toString());
+
+                if (GlobalConstants.isNullOrEmpty(subject.getText().toString())) {
+                    Toast.makeText(PostActivity.this, R.string.post_subject_toast, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if (GlobalConstants.isNullOrEmpty(text.getText().toString())) {
+                    Toast.makeText(PostActivity.this, R.string.post_message_toast, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                AsyncPost<PostResponse> task = new AsyncPost<PostResponse>(URLHelper.prayerURL(), URLHelper.postPrayer(prefsHelper.getSignature(), prefsHelper.getName(), subject.getText().toString(), text.getText().toString()), PostResponse.class) {
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        loadingDialog = ProgressDialog.show(PostActivity.this, "",
+                                "Loading. Please wait...", true);
+                    }
+
+                    @Override
+                    protected void onPostExecute(PostResponse s) {
+                        super.onPostExecute(s);
+                        GlobalConstants.log("Post", "post: successful");
+                        if (loadingDialog != null) loadingDialog.dismiss();
+                        finish();
+                    }
+
+                };
                 task.execute();
-//                String md5 = Security.getMD5(text.getText().toString());
-//                avatar.removeView(secView);
-//                secView = Security.getColorSignature(layoutInflater, mainLayout, md5);
-//                secView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//                avatar.addView(secView);
             }
         });
-
     }
 
-
-    public String buildParams(List<NameValuePair> params) {
-        NameValuePair token = new BasicNameValuePair("auth_token", "yhjCcW0te5Hc7iLzH-aUSA");
-        params.add(token);
-        params.add(new BasicNameValuePair("locale", Locale.getDefault().toString()));
-        params.add(new BasicNameValuePair("status", "!"));
-        return URLEncodedUtils.format(params, "utf-8");
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (loadingDialog != null) loadingDialog.dismiss();
     }
 }

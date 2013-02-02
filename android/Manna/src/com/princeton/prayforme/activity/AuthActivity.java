@@ -60,6 +60,8 @@ public class AuthActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     prefsHelper.clear();
+                    prefsHelper.saveName("Anonymous");
+                    prefsHelper.saveSignature("0");
                     prefsHelper.setFirst();
                     startPrayersActivity();
                 }

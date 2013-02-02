@@ -14,9 +14,7 @@ public class Prayer implements Parcelable {
     private String timestamp;
     private boolean prayedFor;
 
-    public Prayer() {
-
-    }
+    public Prayer() {}
 
     public Prayer(String person, String subject, String message, String signature, int timesPrayedFor, int[] replies, String timestamp, boolean prayedFor) {
         this.person = person;
@@ -27,7 +25,7 @@ public class Prayer implements Parcelable {
         this.replies = replies;
         this.timestamp = timestamp;
         this.prayedFor = prayedFor;
-        Log.d("PPFM", "1");
+//        Log.d("PPFM", "1");
     }
 
     public Prayer(String person, String subject, String message, String signature, int timesPrayedFor, int[] replies, String timestamp) {
@@ -38,7 +36,7 @@ public class Prayer implements Parcelable {
         this.timesPrayedFor = timesPrayedFor;
         this.replies = replies;
         this.timestamp = timestamp;
-        Log.d("PPFM", "2");
+//        Log.d("PPFM", "2");
     }
 
     public Prayer(String subject, String message, String signature, int timesPrayedFor, int[] replies, String timestamp) {
@@ -49,7 +47,7 @@ public class Prayer implements Parcelable {
         this.replies = replies;
         this.timestamp = timestamp;
         person = "Author";
-        Log.d("PPFM", "3");
+//        Log.d("PPFM", "3");
     }
 
     public boolean isPrayedFor() {

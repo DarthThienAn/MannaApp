@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:gravity="center_horizontal"
-              android:background="@color/background"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+                android:gravity="center_horizontal"
+                android:background="@color/background"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
     <RelativeLayout
             android:id="@+id/post_header"
@@ -43,7 +43,6 @@
 
     <TextView android:id="@+id/post_author"
               style="@style/text"
-              android:layout_alignParentRight="true"
               android:layout_below="@id/post_header"
               android:background="@color/white"
               android:minHeight="68dp"
@@ -54,8 +53,40 @@
               android:gravity="center_vertical"
               android:textSize="22dp"
               android:textStyle="bold"
-              android:text="Post"
+              android:text="Author"
             />
+    <LinearLayout
+            android:id="@+id/post_subject_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@id/post_author"
+            android:orientation="horizontal">
+        <TextView android:id="@+id/post_subject_help"
+                  style="@style/text"
+                  android:layout_height="wrap_content"
+                  android:layout_width="56dp"
+                  android:textColor="@color/black"
+                  android:paddingLeft="8dp"
+                  android:textSize="12dp"
+                  android:textStyle="bold"
+                  android:layout_weight="0"
+                  android:text="Subject: "
+                />
+        <EditText android:id="@+id/post_subject"
+                  style="@style/text"
+                  android:background="@color/white"
+                  android:minHeight="48dp"
+                  android:layout_height="wrap_content"
+                  android:layout_width="0dp"
+                  android:textColor="@color/black"
+                  android:layout_weight="1"
+                  android:padding="8dp"
+                  android:textSize="12dp"
+                  android:hint="Enter subject here"
+                  android:gravity="center_vertical"
+                />
+    </LinearLayout>
     <LinearLayout android:id="@+id/post_avatar"
                   android:layout_below="@id/post_header"
                   android:layout_width="52dp"
@@ -66,47 +97,19 @@
     <View android:layout_height="1dp"
           android:layout_width="fill_parent"
           android:background="@color/black"
-          android:layout_below="@id/post_author" />
+          android:layout_above="@id/post_subject_parent" />
+    <View android:layout_height="1dp"
+          android:layout_width="fill_parent"
+          android:background="@color/black"
+          android:layout_below="@id/post_subject_parent" />
     <EditText android:id="@+id/post_text"
               style="@style/text"
               android:background="@android:color/transparent"
-              android:layout_below="@id/post_author"
+              android:layout_below="@id/post_subject_parent"
               android:layout_marginLeft="8dp"
               android:layout_marginTop="9dp"
               android:padding="8dp"
               android:textSize="16dp"
               android:hint="Enter prayer request here"
             />
-
-
-    <!--<ScrollView-->
-    <!--android:id="@+id/scrollview"-->
-    <!--android:layout_weight="1"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:fillViewport="true">-->
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/linear_layout"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:orientation="vertical">-->
-    <!--<ListView-->
-    <!--android:id="@+id/list_view"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:divider="@android:color/transparent"-->
-    <!--android:dividerHeight="8dp"-->
-    <!--android:orientation="vertical" />-->
-    <!--</LinearLayout>-->
-    <!--</ScrollView>-->
-    <ListView
-            android:id="@+id/list_view"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:padding="8dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="8dp"
-            android:orientation="vertical" />
-
 </RelativeLayout>

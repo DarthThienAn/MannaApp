@@ -27,9 +27,14 @@ public class AsyncPost<T> extends AsyncTask<String, String, T> {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<String> requestEntity = new HttpEntity<String>(params, requestHeaders);
-
-        T object = restTemplate.postForObject(url, requestEntity, clazz);
-        GlobalConstants.log("AsyncPost do", object);
+        T object = null;
+        try {
+            object = restTemplate.postForObject(url, requestEntity, clazz);
+            GlobalConstants.log("AsyncPost do", object);
+        } catch (Exception e) {
+            GlobalConstants.log("AsyncPost do failure", e.toString());
+            e.printStackTrace();
+        }
         return object;
     }
 

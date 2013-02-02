@@ -26,7 +26,6 @@ public class PrayerRepliesActivity extends Activity {
 //    List<PrayerReply> prayerReplies;
     ViewPager viewPager;
     PrayerReplyAdapter prayerReplyAdapter;
-    URLHelper urlHelper;
     SharedPrefsHelper prefsHelper;
 
     @Override
@@ -36,7 +35,6 @@ public class PrayerRepliesActivity extends Activity {
         GlobalConstants.log(getLocalClassName(), "create");
         setContentView(R.layout.activity_prayerview);
         prefsHelper = new SharedPrefsHelper(getApplicationContext());
-        urlHelper = new URLHelper(prefsHelper.getName(), prefsHelper.getSignature());
 
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("prayers");
@@ -62,7 +60,7 @@ public class PrayerRepliesActivity extends Activity {
 
     private void populatePrayers() {
         GlobalConstants.log("PRA", "populate");
-        AsyncGet<Prayer> getPrayerTask = new AsyncGet<Prayer>(urlHelper.getPrayerURL(1), Prayer.class) {
+        AsyncGet<Prayer> getPrayerTask = new AsyncGet<Prayer>(URLHelper.getPrayerURL(1), Prayer.class) {
             @Override
             protected void onPostExecute(Prayer s) {
                 super.onPostExecute(s);

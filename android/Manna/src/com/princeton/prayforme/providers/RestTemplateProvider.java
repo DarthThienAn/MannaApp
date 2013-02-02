@@ -30,7 +30,7 @@ public class RestTemplateProvider {
         restTemplate.getMessageConverters().add(jsonConverter);
 
 
-//        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 
         return restTemplate;
     }

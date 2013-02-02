@@ -9,9 +9,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 public class Security {
+    private static final String ANONYMOUS_KEY = "Anonymous0";
+    private static final String ANONYMOUS_HASH = "0";
+
     /* returns a 32-char hash of s */
     public static String getMD5(String s) {
-        if (GlobalConstants.isNullOrEmpty(s)) return "";
+        if (s.equals(ANONYMOUS_KEY)) return ANONYMOUS_HASH;
 //        GlobalConstants.log("MD5", s);
         try {
             // Create MD5 Hash
@@ -41,7 +44,7 @@ public class Security {
         int alpha = 0xFF000000;
         int i = 0;
         View view = inflater.inflate(R.layout.color_signature, root, false);
-        if (GlobalConstants.isNullOrEmpty(s)) return view;
+        if (s.equals(ANONYMOUS_HASH)) return view;
         view.findViewById(R.id.signature_1).setBackgroundColor(alpha + Integer.parseInt(s.substring(i, i=i+6), 16));
         view.findViewById(R.id.signature_2).setBackgroundColor(alpha + Integer.parseInt(s.substring(i, i=i+6), 16));
         view.findViewById(R.id.signature_3).setBackgroundColor(alpha + Integer.parseInt(s.substring(i, i=i+6), 16));

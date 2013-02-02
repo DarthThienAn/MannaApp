@@ -6,6 +6,8 @@ public class PrayerReply {
     private Prayer prayer;
     private List<Reply> replies;
 
+    public PrayerReply() {};
+
     public PrayerReply(Prayer prayer, List<Reply> replies) {
         this.prayer = prayer;
         this.replies = replies;

@@ -6,6 +6,8 @@ public class Reply {
     private String content;
     private long timestamp;
 
+    public Reply () {}
+
     public Reply(String author, String subject, String content, long timestamp) {
         this.person = author;
         this.subject = subject;
