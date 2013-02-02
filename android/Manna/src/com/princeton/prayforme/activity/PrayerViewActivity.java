@@ -48,7 +48,7 @@ public class PrayerViewActivity extends Activity {
     private void populatePrayers() {
         for (Prayer prayer : prayers) {
 //            View item = getLayoutInflater().inflate(R.layout.item_prayerview, viewPager, false);
-//            ((TextView) item.findViewById(R.id.prayer_text)).setText(prayer.getContent());
+//            ((TextView) item.findViewById(R.id.prayer_text)).setText(prayer.getMessage());
             prayerAdapter.addItem(prayer);
         }
     }

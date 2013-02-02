@@ -10,4 +10,12 @@ public class PrayerList {
     public PrayerList(List<Prayer> prayers) {
         this.prayers = prayers;
     }
+
+    public List<Prayer> getPrayers() {
+        return prayers;
+    }
+
+    public void setPrayers(List<Prayer> prayers) {
+        this.prayers = prayers;
+    }
 }

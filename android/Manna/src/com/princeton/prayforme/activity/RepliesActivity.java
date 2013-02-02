@@ -70,10 +70,10 @@ public class RepliesActivity extends Activity {
         String[] authors = { "Mark my name is really long", "Daniel", "David", "Joel", "Sam"};
         String[] subjects = { "You can do it", "We're here for you", "IMO", "that sucks", "prayin4u"};
         String[] content = { "I believe in u bro", "Hey how you all doing my name is Daniel and I'm looking to fight some lions next week, so if you can pray for that, it'd be great thanks!", "Pray for my life", "I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.", "Green eggs and ham"};
-        long[] timestamp = { 1, 2, 3, 2, 1 };
+        String[] timestamp = { "0", "0", "0", "0", "0" };
 
         for (int i = 0; i < 5; i++) {
-            Reply reply = new Reply(authors[i], subjects[i], content[i], timestamp[i]);
+            Reply reply = new Reply(authors[i], content[i], timestamp[i]);
             replies.add(reply);
             ReplyItem replyItem = new ReplyItem(reply);
             adapter.add(replyItem);

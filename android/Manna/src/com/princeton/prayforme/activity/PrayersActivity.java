@@ -2,6 +2,7 @@ package com.princeton.prayforme.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,16 +20,21 @@ import com.princeton.prayforme.list.*;
 import com.princeton.prayforme.model.Prayer;
 import com.princeton.prayforme.model.PrayerList;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class PrayersActivity extends Activity {
 
-    private static final int RECENT_COUNT = 10;
+    private static final int RECENT_COUNT = 5;
 
     ListView listview;
-    List<Prayer> prayers;
+    ArrayList<Prayer> prayers;
     ListAdapter adapter;
+
+    ProgressDialog loadingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +49,7 @@ public class PrayersActivity extends Activity {
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(onItemClickListener);
 
-        drawPrayers();
+        populate();
 /*
         Button addButton = (Button) findViewById(R.id.prayers_add);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +100,13 @@ public class PrayersActivity extends Activity {
                 return true;
             }
         });
+        menu.findItem(R.id.menu_refresh).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                populate();
+                return true;
+            }
+        });
 //        menu.findItem(R.id.menu_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 //            @Override
 //            public boolean onMenuItemClick(MenuItem menuItem) {
@@ -118,7 +131,7 @@ public class PrayersActivity extends Activity {
     private void drawPrayers() {
 //        for (Prayer prayer : prayers) {
 //            View item = getLayoutInflater().inflate(R.layout.item_prayer, prayerContainer, false);
-//            ((TextView) item.findViewById(R.id.prayer_text)).setText(prayer.getContent());
+//            ((TextView) item.findViewById(R.id.prayer_text)).setText(prayer.getMessage());
 //            item.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {
@@ -180,14 +193,19 @@ public class PrayersActivity extends Activity {
 //                //            intent.putExtra("prayers", );
 //                startActivity(intent);
 //            }
+//            if (adapter.getItem(i).getType() == ListItemType.PRAYER3) {
+//                Intent intent = new Intent(getApplicationContext(), PrayerRepliesActivity.class);
+//                intent.putExtra(GlobalConstants.KEY_POSITION, i);
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayList(GlobalConstants.KEY_PRAYERS, prayers);
+//                intent.putExtra(GlobalConstants.KEY_PRAYERS, bundle);
+//                //            Parcelable[] data = new Parcelable[1];
+//                //            intent.putExtra("prayers", );
+//                startActivity(intent);
+//            }
             if (adapter.getItem(i).getType() == ListItemType.PRAYER3) {
-                Intent intent = new Intent(getApplicationContext(), PrayerRepliesActivity.class);
-                intent.putExtra(GlobalConstants.KEY_POSITION, i);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(GlobalConstants.KEY_PRAYERS, (ArrayList<Prayer>) prayers);
-                intent.putExtra(GlobalConstants.KEY_PRAYERS, bundle);
-                //            Parcelable[] data = new Parcelable[1];
-                //            intent.putExtra("prayers", );
+                Intent intent = new Intent(getApplicationContext(), PrayerReplyActivity.class);
+                intent.putExtra(GlobalConstants.KEY_PRAYER, prayers.get(i));
                 startActivity(intent);
             }
         }
@@ -231,13 +249,40 @@ public class PrayersActivity extends Activity {
 //    }
 
     private void populate() {
-        AsyncGet<PrayerList> task = new AsyncGet<PrayerList>(URLHelper.getRecentURL(RECENT_COUNT), PrayerList.class) {
-            @Override
-            protected void onPostExecute(PrayerList s) {
-                super.onPostExecute(s);
+        adapter.clear();
 
+        AsyncGet<Prayer[]> task = new AsyncGet<Prayer[]>(URLHelper.getRecentURL(RECENT_COUNT), Prayer[].class) {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                GlobalConstants.log("Prayers", "recent pre");
+                loadingDialog = ProgressDialog.show(PrayersActivity.this, "",
+                        "Loading. Please wait...", true);
+            }
+
+            @Override
+            protected void onPostExecute(Prayer[] prayerList) {
+                super.onPostExecute(prayerList);
+                if (prayerList == null) {
+                    prayerList = new Prayer[0];
+                }
+
+                prayers = new ArrayList<Prayer>(Arrays.asList(prayerList));
+                GlobalConstants.log("Prayers", "recent got: " + Arrays.toString(prayerList));
+                if (loadingDialog != null) loadingDialog.dismiss();
+
+                for (Prayer prayer : prayers) {
+                    PrayerItem3 prayerItem = new PrayerItem3(PrayersActivity.this, prayer);
+                    adapter.add(prayerItem);
+                }
             }
         };
         task.execute();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (loadingDialog != null) loadingDialog.dismiss();
     }
 }

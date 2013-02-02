@@ -36,7 +36,7 @@
             android:id="@+id/prayer_text"
             android:padding="16dp"
             android:gravity="center_vertical"
-            android:text="content"
+            android:text="message"
             android:textSize="16dp"
             style="@style/text" />
     <View   android:layout_width="fill_parent"

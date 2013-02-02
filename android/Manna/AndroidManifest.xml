@@ -22,9 +22,9 @@
         <activity android:name=".activity.PrayersActivity"
                   android:configChanges="orientation|keyboardHidden">
         </activity>
-        <activity android:name=".activity.SettingsActivity"
-                  android:configChanges="orientation|keyboardHidden">
-        </activity>
+        <!--<activity android:name=".activity.SettingsActivity"-->
+                  <!--android:configChanges="orientation|keyboardHidden">-->
+        <!--</activity>-->
         <activity android:name=".activity.PrayerViewActivity"
                   android:configChanges="orientation|keyboardHidden">
         </activity>
@@ -35,6 +35,9 @@
                   android:configChanges="orientation|keyboardHidden">
         </activity>
         <activity android:name=".activity.PrayerRepliesActivity"
+                  android:configChanges="orientation|keyboardHidden">
+        </activity>
+        <activity android:name=".activity.PrayerReplyActivity"
                   android:configChanges="orientation|keyboardHidden">
         </activity>
     </application>

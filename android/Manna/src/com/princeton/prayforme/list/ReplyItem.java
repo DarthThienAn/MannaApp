@@ -24,11 +24,12 @@ public class ReplyItem extends ListItem<Reply> {
     @Override
     public void populate(View view) {
         TextView title = (TextView) view.findViewById(R.id.reply_title);
-        title.setText(model.getSubject());
+        title.setVisibility(View.GONE);
+//        title.setText(model.getSubject());
 //        title.setVisibility(View.GONE);
         TextView text = (TextView) view.findViewById(R.id.reply_text);
-        text.setText(model.getContent());
+        text.setText(model.getMessage());
         TextView timestamp = (TextView) view.findViewById(R.id.reply_timestamp);
-        timestamp.setText(String.format("Posted by %s %s minutes ago", GlobalConstants.isNullOrEmpty(model.getPerson()) ? "Anonymous" : model.getPerson(), model.getTimestamp()));
+        timestamp.setText(String.format("Posted by %s on %s", GlobalConstants.isNullOrEmpty(model.getPerson()) ? "Anonymous" : model.getPerson(), model.getTimestamp()));
     }
 }

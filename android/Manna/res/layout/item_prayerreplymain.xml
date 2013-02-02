@@ -98,7 +98,7 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:layout_weight="1"
-            android:text="content"
+            android:text="message"
             android:textSize="16sp"
             style="@style/text" />
     <LinearLayout

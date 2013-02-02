@@ -7,57 +7,56 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.R;
+import com.princeton.prayforme.adapter.ListAdapter;
 import com.princeton.prayforme.adapter.PrayerReplyAdapter;
 import com.princeton.prayforme.asynctask.AsyncGet;
 import com.princeton.prayforme.asynctask.AsyncPost;
 import com.princeton.prayforme.helper.SharedPrefsHelper;
 import com.princeton.prayforme.helper.URLHelper;
+import com.princeton.prayforme.list.PrayerReplyMainItem;
+import com.princeton.prayforme.list.ReplyItem;
 import com.princeton.prayforme.model.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PrayerRepliesActivity extends Activity {
+public class PrayerReplyActivity extends Activity {
 
-    List<Prayer> prayers;
     List<Reply> replies;
-    ViewPager viewPager;
-    PrayerReplyAdapter prayerReplyAdapter;
+    ListView listview;
+    ListAdapter listAdapter;
     SharedPrefsHelper prefsHelper;
 
     ProgressDialog loadingDialog;
     EditText sendEdit;
+
+    Prayer prayer;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         GlobalConstants.log(getLocalClassName(), "create");
-        setContentView(R.layout.activity_prayerview);
+        setContentView(R.layout.activity_prayerreply);
         prefsHelper = new SharedPrefsHelper(getApplicationContext());
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra(GlobalConstants.KEY_PRAYERS);
-        prayers =  bundle.getParcelableArrayList(GlobalConstants.KEY_PRAYERS);
-        int pos = intent.getIntExtra(GlobalConstants.KEY_POSITION, 0);
+        listview = (ListView) findViewById(R.id.list_view);
+        listAdapter = new ListAdapter(PrayerReplyActivity.this);
+        listview.setAdapter(listAdapter);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        prayerReplyAdapter = new PrayerReplyAdapter(PrayerRepliesActivity.this);
-        viewPager.setAdapter(prayerReplyAdapter);
-//        createDummyPrayers();
+        Intent intent = getIntent();
+        prayer = intent.getParcelableExtra(GlobalConstants.KEY_PRAYER);
+        PrayerReplyMainItem prayerItem = new PrayerReplyMainItem(PrayerReplyActivity.this, prayer);
+        listAdapter.add(prayerItem);
 
         replies = new ArrayList<Reply>();
         getReplies();
-        prayerReplyAdapter.addItem(new PrayerReply(prayers.get(0), replies));
-        viewPager.setCurrentItem(pos);
-
-        int post = viewPager.getCurrentItem();
-//        prayerReplyAdapter.getItem(viewPager.getCurrentItem()).getPrayer().get;
 
         TextView sendBtn = (TextView) findViewById(R.id.send_btn);
         sendBtn.setOnClickListener(postOnClickListener);
@@ -72,39 +71,9 @@ public class PrayerRepliesActivity extends Activity {
 //        }
 //    }
 
-    private void populatePrayers() {
-        GlobalConstants.log("PRA", "populate");
-        AsyncGet<Prayer> getPrayerTask = new AsyncGet<Prayer>(URLHelper.getPrayerURL(19), Prayer.class) {
-            @Override
-            protected void onPostExecute(Prayer s) {
-                super.onPostExecute(s);
-                GlobalConstants.log("PRA", "success: " + s);
-                if (s != null)
-                    prayerReplyAdapter.addItem(new PrayerReply(s, createDummyReplies()));
-            }
-        };
-
-        getPrayerTask.execute();
-
-//        Prayer prayer1 = getPrayerTask.getResult();
-//        EventListener listener = new EventListener() {
-//
-//        };
-//        prayerReplyAdapter.addItem(new PrayerReply(prayer1, createDummyReplies()));
-
-            PrayerReply prayerReply = new PrayerReply(prayers.get(0), createDummyReplies());
-            prayerReplyAdapter.addItem(prayerReply);
-
-
-//        for (Prayer prayer : prayers) {
-//            PrayerReply prayerReply = new PrayerReply(prayer, createDummyReplies());
-//            prayerReplyAdapter.addItem(prayerReply);
-//        }
-    }
-
     private void getReplies() {
         GlobalConstants.log("PRA", "getRepliesList");
-        int[] replyIds = prayers.get(0).getRepliesList();
+        int[] replyIds = prayer.getRepliesList();
         if ((replyIds == null) || (replyIds.length < 1)) {
             GlobalConstants.log("PRA", "no replies - return");
             return;
@@ -115,7 +84,7 @@ public class PrayerRepliesActivity extends Activity {
             protected void onPreExecute() {
                 super.onPreExecute();
                 GlobalConstants.log("PRA", "recent pre");
-                loadingDialog = ProgressDialog.show(PrayerRepliesActivity.this, "",
+                loadingDialog = ProgressDialog.show(PrayerReplyActivity.this, "",
                         "Loading. Please wait...", true);
             }
 
@@ -123,11 +92,9 @@ public class PrayerRepliesActivity extends Activity {
             protected void onPostExecute(Reply[] resultReplies) {
                 super.onPostExecute(resultReplies);
                 GlobalConstants.log("PRA", "success: " + Arrays.toString(resultReplies));
-//                prayerReplyAdapter.getItem(0).setReplies(new ArrayList<Reply>(Arrays.asList(resultReplies)));
-                prayerReplyAdapter.removeItem(0);
-                prayerReplyAdapter.addItem(new PrayerReply(prayers.get(0), new ArrayList<Reply>(Arrays.asList(resultReplies))));
-                prayerReplyAdapter.notifyDataSetChanged();
-                viewPager.notify();
+                for (Reply reply : resultReplies) {
+                    listAdapter.add(new ReplyItem(reply));
+                }
 
                 if (loadingDialog != null) loadingDialog.dismiss();
             }
@@ -155,13 +122,13 @@ public class PrayerRepliesActivity extends Activity {
     final View.OnClickListener postOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            AsyncPost<ReplyPostResponse> task = new AsyncPost<ReplyPostResponse>(URLHelper.replyURL(), URLHelper.postReply(prefsHelper.getSignature(), prefsHelper.getName(), prayerReplyAdapter.getItem(viewPager.getCurrentItem()).getPrayer().getId(), " ", sendEdit.getText().toString()), ReplyPostResponse.class) {
+            AsyncPost<ReplyPostResponse> task = new AsyncPost<ReplyPostResponse>(URLHelper.replyURL(), URLHelper.postReply(prefsHelper.getSignature(), prefsHelper.getName(), prayer.getId(), " ", sendEdit.getText().toString()), ReplyPostResponse.class) {
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
                     GlobalConstants.log("Replies", "pre");
-                        loadingDialog = ProgressDialog.show(PrayerRepliesActivity.this, "",
-                                "Loading. Please wait...", true);
+                    loadingDialog = ProgressDialog.show(PrayerReplyActivity.this, "",
+                            "Loading. Please wait...", true);
                 }
 
                 @Override
@@ -171,7 +138,7 @@ public class PrayerRepliesActivity extends Activity {
                     if (loadingDialog != null) loadingDialog.dismiss();
 
                     sendEdit.setText("");
-                    Toast.makeText(PrayerRepliesActivity.this, "Reply made successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PrayerReplyActivity.this, "Reply made successfully!", Toast.LENGTH_SHORT).show();
                 }
 
             };

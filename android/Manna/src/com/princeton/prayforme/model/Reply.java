@@ -2,16 +2,14 @@ package com.princeton.prayforme.model;
 
 public class Reply {
     private String person;
-    private String subject;
-    private String content;
-    private long timestamp;
+    private String message;
+    private String timestamp;
 
     public Reply () {}
 
-    public Reply(String author, String subject, String content, long timestamp) {
+    public Reply(String author, String message, String timestamp) {
         this.person = author;
-        this.subject = subject;
-        this.content = content;
+        this.message = message;
         this.timestamp = timestamp;
     }
 
@@ -23,27 +21,30 @@ public class Reply {
         this.person = person;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getMessage() {
+        return message;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Reply");
+        sb.append("{person='").append(person).append('\'');
+        sb.append(", message='").append(message).append('\'');
+        sb.append(", timestamp='").append(timestamp).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

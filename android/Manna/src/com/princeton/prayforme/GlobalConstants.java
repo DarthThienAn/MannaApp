@@ -5,6 +5,7 @@ import android.util.Log;
 public class GlobalConstants {
     public static final String LOGTAG = "PPFM";
     public static final String API = "http://shielded-plateau-4848.herokuapp.com/";
+    public static final String KEY_PRAYER = "prayer";
     public static final String KEY_PRAYERS = "prayers";
     public static final String KEY_POSITION = "position";
     public static final String KEY_POST_SUBJECT = "post_subject";

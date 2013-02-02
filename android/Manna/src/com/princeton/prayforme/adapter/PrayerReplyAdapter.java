@@ -86,4 +86,14 @@ public class PrayerReplyAdapter extends PagerAdapter {
     public PrayerReply getItem(int pos) {
         return prayerReplies.get(pos);
     }
+
+    public void removeItem(int pos) {
+        prayerReplies.remove(pos);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return super.getItemPosition(object);
+    }
 }

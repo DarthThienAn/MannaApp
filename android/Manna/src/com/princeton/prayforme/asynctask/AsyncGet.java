@@ -19,6 +19,7 @@ public class AsyncGet<T> extends AsyncTask<String, String, T> {
 
     @Override
     protected T doInBackground(String... strings) {
+        GlobalConstants.log("AsyncGet doinbackground", url);
         RestTemplate restTemplate = RestTemplateProvider.getRestTemplate();
         T object = null;
         try {
