@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.R;
 import com.princeton.prayforme.Security;
 import com.princeton.prayforme.adapter.ListAdapter;
@@ -128,6 +129,7 @@ public class PrayersActivity extends Activity {
 //            count++;
 //        }
 
+        int[] ids = { 1, 2, 3, 4, 5 };
         String[] authors = { "Mark my name is really long", "Daniel", "David", "Joel", "Sam"};
         String[] subject = { "Need prayer for thesis", "Tough times", "Finals", "Busy week", "Need a friend"};
         String[] content = { "hello world", "Hey how you all doing my name is Daniel and I'm looking to fight some lions next week, so if you can pray for that, it'd be great thanks!", "Pray for my life", "I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.I wish my sermons would write themselves for me.", "Green eggs and ham"};
@@ -148,7 +150,7 @@ public class PrayersActivity extends Activity {
 //            prayers.add(prayer);
 //        }
         for (int i = 0; i < 5; i++) {
-            Prayer prayer = new Prayer(authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, "timestamp");
+            Prayer prayer = new Prayer(ids[i], authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, "timestamp");
             PrayerItem3 prayerItem = new PrayerItem3(PrayersActivity.this, prayer);
             adapter.add(prayerItem);
             prayers.add(prayer);
@@ -180,10 +182,10 @@ public class PrayersActivity extends Activity {
 //            }
             if (adapter.getItem(i).getType() == ListItemType.PRAYER3) {
                 Intent intent = new Intent(getApplicationContext(), PrayerRepliesActivity.class);
-                intent.putExtra("pos", i);
+                intent.putExtra(GlobalConstants.KEY_POSITION, i);
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("prayers", (ArrayList<Prayer>) prayers);
-                intent.putExtra("prayers", bundle);
+                bundle.putParcelableArrayList(GlobalConstants.KEY_PRAYERS, (ArrayList<Prayer>) prayers);
+                intent.putExtra(GlobalConstants.KEY_PRAYERS, bundle);
                 //            Parcelable[] data = new Parcelable[1];
                 //            intent.putExtra("prayers", );
                 startActivity(intent);

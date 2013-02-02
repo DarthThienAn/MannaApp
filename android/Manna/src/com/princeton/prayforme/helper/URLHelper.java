@@ -19,6 +19,10 @@ public class URLHelper {
         return buildBasicURL("prayer");
     }
 
+    public static String replyURL() {
+        return buildBasicURL("reply");
+    }
+
     // POST builders
     public static String postPrayer(String signature, String person, String subject, String message) {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
@@ -31,10 +35,23 @@ public class URLHelper {
         return buildParams(params);
     }
 
-    public static String postReply(String signature, String person, String subject, String message) {
+    public static String postPrayer(int prayerId, String signature, String person, String subject, String message) {
+        List<NameValuePair> params = new LinkedList<NameValuePair>();
+        params.add(new BasicNameValuePair("prayer_id", String.valueOf(prayerId)));
+        params.add(new BasicNameValuePair("signature", signature));
+        params.add(new BasicNameValuePair("person", person));
+        params.add(new BasicNameValuePair("subject", subject));
+        params.add(new BasicNameValuePair("message", message));
+        params.add(new BasicNameValuePair("kind", "1"));
+
+        return buildParams(params);
+    }
+
+    public static String postReply(String signature, String person, int prayer_id, String subject, String message) {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         params.add(new BasicNameValuePair("signature", signature));
         params.add(new BasicNameValuePair("person", person));
+        params.add(new BasicNameValuePair("prayer_id", String.valueOf(prayer_id)));
         params.add(new BasicNameValuePair("subject", subject));
         params.add(new BasicNameValuePair("message", message));
 
@@ -63,6 +80,18 @@ public class URLHelper {
         return buildGetURL("reply", params);
     }
 
+    // DELETE URLs
+
+    public static String deletePrayerURL(int prayerId, String signature, String person) {
+        List<NameValuePair> params = new LinkedList<NameValuePair>();
+        params.add(new BasicNameValuePair("prayer_id", String.valueOf(prayerId)));
+        params.add(new BasicNameValuePair("signature", signature));
+        params.add(new BasicNameValuePair("person", person));
+
+        return buildDeleteURL("prayer", params);
+    }
+
+
     // helper methods
     private static String buildBasicURL(String endpoint) {
         return GlobalConstants.API + endpoint;
@@ -73,6 +102,10 @@ public class URLHelper {
     }
 
     private static String buildGetURL(String endpoint, List<NameValuePair> params) {
+        return buildBasicURL(endpoint) + "?" + buildParams(params);
+    }
+
+    private static String buildDeleteURL(String endpoint, List<NameValuePair> params) {
         return buildBasicURL(endpoint) + "?" + buildParams(params);
     }
 

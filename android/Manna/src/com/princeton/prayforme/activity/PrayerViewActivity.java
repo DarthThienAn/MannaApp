@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.R;
 import com.princeton.prayforme.adapter.PrayerAdapter;
 import com.princeton.prayforme.model.Prayer;
@@ -23,9 +24,9 @@ public class PrayerViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prayerview);
         Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra("prayers");
-        prayers =  bundle.getParcelableArrayList("prayers");
-        int pos = intent.getIntExtra("pos", 0);
+        Bundle bundle = intent.getBundleExtra(GlobalConstants.KEY_PRAYERS);
+        prayers =  bundle.getParcelableArrayList(GlobalConstants.KEY_PRAYERS);
+        int pos = intent.getIntExtra(GlobalConstants.KEY_POSITION, 0);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         prayerAdapter = new PrayerAdapter(getLayoutInflater());

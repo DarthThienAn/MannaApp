@@ -1,6 +1,7 @@
 package com.princeton.prayforme.adapter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class PrayerReplyAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         ViewGroup view = (ViewGroup) layoutInflater.inflate(R.layout.item_prayerview, container, false);
         ListView listView = (ListView) view.findViewById(R.id.list_view);
-        ListAdapter listAdapter = new ListAdapter((Activity) layoutInflater.getContext());
+        ListAdapter listAdapter = new ListAdapter(context);
         listView.setAdapter(listAdapter);
 
 
@@ -65,13 +66,7 @@ public class PrayerReplyAdapter extends PagerAdapter {
 
         final EditText editText = (EditText) view.findViewById(R.id.send_edit);
 
-        TextView sendButton = (TextView) view.findViewById(R.id.send_btn);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GlobalConstants.log("Replies", editText.getText().toString());
-            }
-        });
+        ProgressDialog loadingDialog;
 
         container.addView(view);
         return view;
@@ -86,5 +81,9 @@ public class PrayerReplyAdapter extends PagerAdapter {
 
     public void addItem(PrayerReply prayerReply) {
         prayerReplies.add(prayerReply);
+    }
+
+    public PrayerReply getItem(int pos) {
+        return prayerReplies.get(pos);
     }
 }

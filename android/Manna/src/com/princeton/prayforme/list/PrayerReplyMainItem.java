@@ -1,22 +1,33 @@
 package com.princeton.prayforme.list;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.R;
 import com.princeton.prayforme.Security;
+import com.princeton.prayforme.activity.PostActivity;
+import com.princeton.prayforme.asynctask.AsyncDelete;
+import com.princeton.prayforme.asynctask.AsyncPut;
 import com.princeton.prayforme.helper.SharedPrefsHelper;
+import com.princeton.prayforme.helper.URLHelper;
 import com.princeton.prayforme.model.Prayer;
 
 public class PrayerReplyMainItem extends ListItem<Prayer> {
 
     private Activity context;
+    private SharedPrefsHelper prefsHelper;
 
     public PrayerReplyMainItem(Activity context, Prayer model) {
         super(model);
         this.context = context;
+        prefsHelper = new SharedPrefsHelper(context.getApplicationContext());
     }
 
     @Override
@@ -74,29 +85,48 @@ public class PrayerReplyMainItem extends ListItem<Prayer> {
     private final View.OnClickListener editOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            Intent startEditIntent = new Intent(context.getApplicationContext(), PostActivity.class);
+            startEditIntent.putExtra(GlobalConstants.KEY_POST_SUBJECT, model.getSubject());
+            startEditIntent.putExtra(GlobalConstants.KEY_POST_TEXT, model.getMessage());
+            startEditIntent.putExtra(GlobalConstants.KEY_POST_ID, model.getId());
+            context.startActivity(startEditIntent);
         }
     };
 
     private final View.OnClickListener deleteOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-//        AlertDialog dialog = new AlertDialog.Builder(context)
-//                .setCancelable(true)
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                    }
-//                })
-//                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialog.cancel();
-//                    }
-//                }).create();
-//
-//            dialog.show();
+        final AlertDialog deleteDialog = new AlertDialog.Builder(context)
+                .setCancelable(true)
+                .setTitle("Are you sure?")
+                .setMessage("Deleting your prayer will delete it and its replies forever.")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AsyncDelete task = new AsyncDelete(URLHelper.deletePrayerURL(model.getId(), prefsHelper.getSignature(), prefsHelper.getName())) {
+                            @Override
+                            protected void onPreExecute() {
+                                super.onPreExecute();
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void s) {
+                                super.onPostExecute(s);
+                                Toast.makeText(context, "Prayer deleted", Toast.LENGTH_SHORT).show();
+                            }
+                        };
+                        task.execute();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                }).create();
+
+            deleteDialog.show();
+
         }
     };
 

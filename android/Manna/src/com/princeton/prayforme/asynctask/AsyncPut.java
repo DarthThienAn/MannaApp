@@ -9,51 +9,49 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
-public class AsyncPost<T> extends AsyncTask<Object, Void, T> {
+public class AsyncPut extends AsyncTask<Object, Void, Void> {
     private String url;
     private String params;
-    private Class<T> clazz;
 
-    public AsyncPost(String url, String params, Class<T> clazz) {
+    public AsyncPut(String url, String params) {
         super();
         this.url = url;
-        this.clazz = clazz;
         this.params = params;
     }
 
     @Override
-    protected T doInBackground(Object... strings) {
+    protected Void doInBackground(Object... strings) {
+        GlobalConstants.log("AsyncPut do", url + "..." + params);
         RestTemplate restTemplate = RestTemplateProvider.getRestTemplate();
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<String> requestEntity = new HttpEntity<String>(params, requestHeaders);
-        T object = null;
         try {
-            object = restTemplate.postForObject(url, requestEntity, clazz);
-            GlobalConstants.log("AsyncPost do", object);
+            restTemplate.put(url, requestEntity, Void.class);
+            GlobalConstants.log("AsyncPut do", url + "..." + params);
         } catch (Exception e) {
-            GlobalConstants.log("AsyncPost do failure", e.toString());
+            GlobalConstants.log("AsyncPut do failure", e.toString());
             e.printStackTrace();
         }
-        return object;
+        return null;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        GlobalConstants.log("AsyncPut preexecute", "");
     }
 
     @Override
-    protected void onPostExecute(T s) {
+    protected void onPostExecute(Void s) {
         super.onPostExecute(s);
-        GlobalConstants.log("AsyncPost success", s);
-
+        GlobalConstants.log("AsyncPut success", s);
     }
 
     @Override
-    protected void onCancelled(T s) {
+    protected void onCancelled(Void s) {
         super.onCancelled(s);
-        GlobalConstants.log("AsyncPost canceled", s);
+        GlobalConstants.log("AsyncPut canceled", s);
     }
 
     @Override

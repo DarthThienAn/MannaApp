@@ -1,13 +1,13 @@
 package com.princeton.prayforme.model;
 
-public class PostResponse {
+public class PrayerPostResponse {
     private int status;
     private String message;
     private int prayerId;
 
-    public PostResponse() {}
+    public PrayerPostResponse() {}
 
-    public PostResponse(int status, String message, int prayerId) {
+    public PrayerPostResponse(int status, String message, int prayerId) {
         this.status = status;
         this.message = message;
         this.prayerId = prayerId;
@@ -40,7 +40,7 @@ public class PostResponse {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("PostResponse");
+        sb.append("PrayerPostResponse");
         sb.append("{status=").append(status);
         sb.append(", message='").append(message).append('\'');
         sb.append(", prayerId=").append(prayerId);
