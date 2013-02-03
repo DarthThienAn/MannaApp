@@ -23,6 +23,7 @@ public class AsyncPost<T> extends AsyncTask<Object, Void, T> {
 
     @Override
     protected T doInBackground(Object... strings) {
+        GlobalConstants.log("AsyncPost url/params:", url + " " + params);
         RestTemplate restTemplate = RestTemplateProvider.getRestTemplate();
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

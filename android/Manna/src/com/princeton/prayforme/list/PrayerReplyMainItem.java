@@ -23,6 +23,7 @@ public class PrayerReplyMainItem extends ListItem<Prayer> {
 
     private Activity context;
     private SharedPrefsHelper prefsHelper;
+    ProgressDialog loadingDialog;
 
     public PrayerReplyMainItem(Activity context, Prayer model) {
         super(model);
@@ -43,7 +44,7 @@ public class PrayerReplyMainItem extends ListItem<Prayer> {
     @Override
     public void populate(View view) {
         TextView author = (TextView) view.findViewById(R.id.prayer_author);
-        author.setText(GlobalConstants.isNullOrEmpty(model.getPerson()) ? "Anonymous" : model.getPerson());
+        author.setText(model.getPerson());
         TextView title = (TextView) view.findViewById(R.id.prayer_title);
         title.setText(model.getSubject());
         TextView text = (TextView) view.findViewById(R.id.prayer_text);
@@ -60,9 +61,8 @@ public class PrayerReplyMainItem extends ListItem<Prayer> {
         TextView timestamp = (TextView) view.findViewById(R.id.prayer_timestamp);
         timestamp.setText(String.format("Posted on %s", model.getTimestamp()));
 
-//        String mySignature = new SharedPrefsHelper(context.getApplicationContext()).getSignature();
-//        if (!GlobalConstants.isNullOrEmpty(mySignature) && (model.getSignature().equals(mySignature)) {
-        if (true) {
+        String mySignature = new SharedPrefsHelper(context.getApplicationContext()).getSignature();
+        if (!mySignature.equals(Security.ANONYMOUS_SIGNATURE) && (model.getSignature().equals(mySignature))) {
             view.findViewById(R.id.prayer_author_buttons).setVisibility(View.VISIBLE);
             TextView editButton = (TextView) view.findViewById(R.id.prayer_btn_edit);
             editButton.setOnClickListener(editOnClickListener);
@@ -79,6 +79,24 @@ public class PrayerReplyMainItem extends ListItem<Prayer> {
             prayButton.setEnabled(false);
             model.setPrayedFor(true);
             prayButton.setText(String.format("Prays(%d)", model.getTimesPrayedFor()));
+
+            AsyncPut task = new AsyncPut(URLHelper.prayerURL(), URLHelper.postPrayer(model.getId(), model.getSignature(), model.getPerson(), model.getSubject(), model.getMessage(), model.getTimesPrayedFor())) {
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    loadingDialog = ProgressDialog.show(context, "",
+                            "Loading. Please wait...", true);
+                }
+
+                @Override
+                protected void onPostExecute(Void s) {
+                    super.onPostExecute(s);
+                    GlobalConstants.log("Prayer", "successful update");
+                    loadingDialog.dismiss();
+                }
+            };
+
+            task.execute();
         }
     };
 
@@ -113,6 +131,7 @@ public class PrayerReplyMainItem extends ListItem<Prayer> {
                             protected void onPostExecute(Void s) {
                                 super.onPostExecute(s);
                                 Toast.makeText(context, "Prayer deleted", Toast.LENGTH_SHORT).show();
+                                context.finish();
                             }
                         };
                         task.execute();

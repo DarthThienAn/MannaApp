@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import com.princeton.prayforme.GlobalConstants;
 import com.princeton.prayforme.list.ListItem;
 import com.princeton.prayforme.list.ListItemType;
 
@@ -30,14 +31,14 @@ public class ListAdapter extends ArrayAdapter<ListItem>  {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         ListItem item = getItem(position);
-        if (view == null) {
+        if ((view == null) || (!view.getTag().equals(position))) {
             view = context.getLayoutInflater().inflate(item.getResourceId(), parent, false);
         }
 //        else
 //            GlobalConstants.log("ListAdapter", "convertview used");
-//        GlobalConstants.log("ListAdapter", item.getType().ordinal());
 
         item.populate(view);
+        view.setTag(position);
         return view;
     }
 }

@@ -49,8 +49,10 @@ public class AuthActivity extends Activity {
                         return;
                     }
 
-                    prefsHelper.saveName(nameEdit.getText().toString());
-                    prefsHelper.saveSignature(Security.getMD5(signatureEdit.getText().toString()));
+                    String name = nameEdit.getText().toString();
+                    String signature = signatureEdit.getText().toString();
+                    prefsHelper.saveName(name);
+                    prefsHelper.saveSignature(Security.getMD5(name, signature));
                     prefsHelper.setFirst();
                     startPrayersActivity();
                 }
@@ -60,8 +62,8 @@ public class AuthActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     prefsHelper.clear();
-                    prefsHelper.saveName("Anonymous");
-                    prefsHelper.saveSignature("0");
+                    prefsHelper.saveName(Security.ANONYMOUS_NAME);
+                    prefsHelper.saveSignature(Security.ANONYMOUS_SIGNATURE);
                     prefsHelper.setFirst();
                     startPrayersActivity();
                 }
@@ -75,6 +77,7 @@ public class AuthActivity extends Activity {
     }
 
     private void startPrayersActivity() {
+        GlobalConstants.log("Auth", prefsHelper.getName() + ": " + prefsHelper.getSignature());
         startActivity(new Intent(getApplicationContext(), PrayersActivity.class));
         finish();
     }

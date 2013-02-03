@@ -5,7 +5,7 @@
     <string name="auth_welcome">Welcome to the Princeton Pray For Me!</string>
     <string name="auth_name">Display Name</string>
     <string name="auth_name_hint">Enter your display name here</string>
-    <string name="auth_color_signature">Color Signature</string>
+    <string name="auth_color_signature">Signature</string>
     <string name="auth_color_signature_hint">Enter your signature (any word)</string>
     <string name="auth_go">Go</string>
     <string name="auth_anonymous">Go as Anonymous</string>

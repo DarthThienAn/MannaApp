@@ -54,10 +54,9 @@ public class PostActivity extends Activity {
         String signature = prefsHelper.getSignature();
 
         TextView author = (TextView) findViewById(R.id.post_author);
-        author.setText(GlobalConstants.isNullOrEmpty(name) ? "Anonymous" : name);
+        author.setText(name);
 
-        String md5 = Security.getMD5(name + signature);
-        signatureView = Security.getColorSignature(getLayoutInflater(), mainLayout, md5);
+        signatureView = Security.getColorSignature(getLayoutInflater(), mainLayout, signature);
         signatureView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         avatar.addView(signatureView);
 
@@ -106,7 +105,14 @@ public class PostActivity extends Activity {
                         @Override
                         protected void onPostExecute(PrayerPostResponse s) {
                             super.onPostExecute(s);
-                            postSuccess();
+                            if (s == null) {
+                                GlobalConstants.log("Post", "FAILURE");
+                                Toast.makeText(PostActivity.this, "Post failed", Toast.LENGTH_LONG);
+                                if (loadingDialog != null) loadingDialog.dismiss();
+                            }
+                            else
+                                postSuccess();
+
                         }
 
                     };

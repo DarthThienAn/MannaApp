@@ -7,5 +7,6 @@ public enum ListItemType {
     PRAYER3,
     PRAYERREPLYMAIN,
     PRAYERFOOTER,
-    REPLY
+    REPLY,
+    NOREPLY
 }

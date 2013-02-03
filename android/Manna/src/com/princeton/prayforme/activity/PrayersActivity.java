@@ -28,7 +28,7 @@ import java.util.List;
 
 public class PrayersActivity extends Activity {
 
-    private static final int RECENT_COUNT = 5;
+    private static final int RECENT_COUNT = 10;
 
     ListView listview;
     ArrayList<Prayer> prayers;
@@ -162,12 +162,12 @@ public class PrayersActivity extends Activity {
 //            adapter.add(prayerItem);
 //            prayers.add(prayer);
 //        }
-        for (int i = 0; i < 5; i++) {
-            Prayer prayer = new Prayer(ids[i], authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, "timestamp");
-            PrayerItem3 prayerItem = new PrayerItem3(PrayersActivity.this, prayer);
-            adapter.add(prayerItem);
-            prayers.add(prayer);
-        }
+//        for (int i = 0; i < 5; i++) {
+//            Prayer prayer = new Prayer(ids[i], authors[i], subject[i], content[i], Security.getMD5(signatures[i]), times[i], replies, "timestamp");
+//            PrayerItem3 prayerItem = new PrayerItem3(PrayersActivity.this, prayer);
+//            adapter.add(prayerItem);
+//            prayers.add(prayer);
+//        }
     }
 
     final AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {

@@ -3,6 +3,7 @@ package com.princeton.prayforme.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -18,12 +19,15 @@ import com.princeton.prayforme.asynctask.AsyncGet;
 import com.princeton.prayforme.asynctask.AsyncPost;
 import com.princeton.prayforme.helper.SharedPrefsHelper;
 import com.princeton.prayforme.helper.URLHelper;
+import com.princeton.prayforme.list.ListItemType;
+import com.princeton.prayforme.list.NoReplyItem;
 import com.princeton.prayforme.list.PrayerReplyMainItem;
 import com.princeton.prayforme.list.ReplyItem;
 import com.princeton.prayforme.model.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class PrayerReplyActivity extends Activity {
@@ -75,32 +79,54 @@ public class PrayerReplyActivity extends Activity {
         GlobalConstants.log("PRA", "getRepliesList");
         int[] replyIds = prayer.getRepliesList();
         if ((replyIds == null) || (replyIds.length < 1)) {
-            GlobalConstants.log("PRA", "no replies - return");
-            return;
+            GlobalConstants.log("PRA", "no replies");
+            listAdapter.add(new NoReplyItem());
         }
-
-        AsyncGet<Reply[]> getPrayerTask = new AsyncGet<Reply[]>(URLHelper.getReplyURL(replyIds), Reply[].class) {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                GlobalConstants.log("PRA", "recent pre");
-                loadingDialog = ProgressDialog.show(PrayerReplyActivity.this, "",
-                        "Loading. Please wait...", true);
-            }
-
-            @Override
-            protected void onPostExecute(Reply[] resultReplies) {
-                super.onPostExecute(resultReplies);
-                GlobalConstants.log("PRA", "success: " + Arrays.toString(resultReplies));
-                for (Reply reply : resultReplies) {
-                    listAdapter.add(new ReplyItem(reply));
+        else if (replyIds.length == 1) {
+            AsyncGet<Reply> getReplyTask = new AsyncGet<Reply>(URLHelper.getReplyURL(replyIds), Reply.class) {
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    GlobalConstants.log("PRA", "recent pre");
+                    loadingDialog = ProgressDialog.show(PrayerReplyActivity.this, "",
+                            "Loading. Please wait...", true);
                 }
 
-                if (loadingDialog != null) loadingDialog.dismiss();
-            }
-        };
+                @Override
+                protected void onPostExecute(Reply reply) {
+                    super.onPostExecute(reply);
+                    GlobalConstants.log("PRA", "success: " + reply);
+                    listAdapter.add(new ReplyItem(reply));
 
-        getPrayerTask.execute();
+
+                    if (loadingDialog != null) loadingDialog.dismiss();
+                }
+            };
+            getReplyTask.execute();
+        }
+        else {
+            AsyncGet<Reply[]> getRepliesTask = new AsyncGet<Reply[]>(URLHelper.getReplyURL(replyIds), Reply[].class) {
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    GlobalConstants.log("PRA", "recent pre");
+                    loadingDialog = ProgressDialog.show(PrayerReplyActivity.this, "",
+                            "Loading. Please wait...", true);
+                }
+
+                @Override
+                protected void onPostExecute(Reply[] resultReplies) {
+                    super.onPostExecute(resultReplies);
+                    GlobalConstants.log("PRA", "success: " + Arrays.toString(resultReplies));
+                    for (Reply reply : resultReplies) {
+                        listAdapter.add(new ReplyItem(reply));
+                    }
+
+                    if (loadingDialog != null) loadingDialog.dismiss();
+                }
+            };
+            getRepliesTask.execute();
+        }
     }
 
     private List<Reply> createDummyReplies() {
@@ -122,6 +148,11 @@ public class PrayerReplyActivity extends Activity {
     final View.OnClickListener postOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if (GlobalConstants.isNullOrEmpty(sendEdit.getText().toString())) {
+                GlobalConstants.log("Replies", "empty comment; return");
+                return;
+            }
+
             AsyncPost<ReplyPostResponse> task = new AsyncPost<ReplyPostResponse>(URLHelper.replyURL(), URLHelper.postReply(prefsHelper.getSignature(), prefsHelper.getName(), prayer.getId(), " ", sendEdit.getText().toString()), ReplyPostResponse.class) {
                 @Override
                 protected void onPreExecute() {
@@ -136,6 +167,10 @@ public class PrayerReplyActivity extends Activity {
                     super.onPostExecute(s);
                     GlobalConstants.log("Replies", "post");
                     if (loadingDialog != null) loadingDialog.dismiss();
+                    Reply reply = new Reply(prefsHelper.getName(), sendEdit.getText().toString(), new Date(System.currentTimeMillis()).toString());
+                    if (listAdapter.getItem(listAdapter.getCount() - 1).getType() == ListItemType.NOREPLY)
+                        listAdapter.remove(listAdapter.getItem(listAdapter.getCount() - 1));
+                    listAdapter.add(new ReplyItem(reply));
 
                     sendEdit.setText("");
                     Toast.makeText(PrayerReplyActivity.this, "Reply made successfully!", Toast.LENGTH_SHORT).show();

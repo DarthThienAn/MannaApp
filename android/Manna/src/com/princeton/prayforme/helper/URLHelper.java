@@ -35,6 +35,19 @@ public class URLHelper {
         return buildParams(params);
     }
 
+    public static String postPrayer(int prayerId, String signature, String person, String subject, String message, int timesPrayedFor) {
+        List<NameValuePair> params = new LinkedList<NameValuePair>();
+        params.add(new BasicNameValuePair("prayer_id", String.valueOf(prayerId)));
+        params.add(new BasicNameValuePair("signature", signature));
+        params.add(new BasicNameValuePair("person", person));
+        params.add(new BasicNameValuePair("subject", subject));
+        params.add(new BasicNameValuePair("message", message));
+        params.add(new BasicNameValuePair("times_prayed_for", String.valueOf(timesPrayedFor)));
+        params.add(new BasicNameValuePair("kind", "1"));
+
+        return buildParams(params);
+    }
+
     public static String postPrayer(int prayerId, String signature, String person, String subject, String message) {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         params.add(new BasicNameValuePair("prayer_id", String.valueOf(prayerId)));
